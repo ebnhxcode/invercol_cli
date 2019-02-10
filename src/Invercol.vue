@@ -1,5 +1,5 @@
 <template lang="pug">
-#distantis
+#invercol
   pro-header
     //section.section
     nav.nav.has-shadow
@@ -28,7 +28,7 @@ import ProSpinner  from "@/components/shared/Spinner.vue"
 
 
 export default {
-  name: "Distantis",
+  name: "Invercol",
   components: {
     ProHeader,
     ProFooter,

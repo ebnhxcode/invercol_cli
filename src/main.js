@@ -3,7 +3,7 @@ import Vue from 'vue'
 Vue.config.productionTip = false
 
 // Se importa la App main
-import Distantis from '@/Distantis'
+import Invercol from '@/Invercol'
 
 // Se importa el Enrutador
 import VueRouter from 'vue-router'
@@ -65,7 +65,7 @@ Vue.use(VModal, {dialog: true})
 
 /* eslint-disable no-new, render de la app */
 new Vue({
-  el: '#distantis',
-  render: h => h(Distantis),
+  el: '#invercol',
+  render: h => h(Invercol),
   router: router
 })

@@ -1,5 +1,6 @@
 <template lang="pug" id="top">
   div(style="padding-top:50px;")
+    //https://mdbootstrap.com/docs/vue/content/icons-list/? 
 
     div.navbar.is-fixed-top.tabs.is-centered.is-small.is-toggle.is-toggle-rounded(style="border-radius: 2px 2px 5px 5px;")
       //ul Distantis
@@ -9,6 +10,43 @@
             v-icon(name="home")
             p &nbsp;
             p Home
+
+        router-link(to="/books", tag="li", exact) 
+          a 
+            v-icon(name="book-open")
+            p &nbsp;
+            p Libros
+
+        router-link(to="/graphs", tag="li", exact) 
+          a 
+            v-icon(name="chart-pie")
+            p &nbsp;
+            p Gráficos
+
+        router-link(to="/users", tag="li", exact) 
+          a 
+            v-icon(name="user-alt")
+            p &nbsp;
+            p Usuarios
+
+        router-link(to="/Notifications", tag="li", exact) 
+          a 
+            v-icon(name="user-alt")
+            p &nbsp;
+            p Notificaciones
+
+        router-link(to="/logs", tag="li", exact) 
+          a 
+            v-icon(name="history")
+            p &nbsp;
+            p Monitoreo y Logs
+
+            
+            
+
+        router-link(to="/#!", tag="li", exact) 
+          a 
+            p &nbsp;
         //router-link(to="/tour-operadores", tag="li", exact): a Tour Operadores
         //router-link(to="/users", tag="li", exact)
           a 
