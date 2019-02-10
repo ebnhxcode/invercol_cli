@@ -1,0 +1,21 @@
+@charset "utf-8";
+
+// Import Bulma core
+//@import 'bulma';
+@import '~bulma/bulma.sass'; // tambien se puede de esta forma
+
+// Import component
+//@import 'bulma-calendar';
+//@import "~bulma-switch";
+//@import "~bulma-calendar/src/sass/index"; // se incorporó unicamente
+//@import "~bulma-tooltip/src/sass/index"; // se incorporó unicamente
+@import "~bulma-tooltip"; // se incorporó unicamente
+//@import "~bulma-pageloader/src/sass/index"; // se incorporó unicamente
+@import '~bulma-pageloader';
+//@import "~bulma-calendar/dist/css/bulma-calendar";
+
+//@import "~bulma-accordion/dist/css/bulma-accordion";
+
+
+//@import "~bulma-calendar/dist/css/bulma-calendar";
+//@import "~bulma-extensions/dist/css/bulma-extensions";
