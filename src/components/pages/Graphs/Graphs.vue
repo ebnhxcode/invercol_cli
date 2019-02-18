@@ -76,15 +76,15 @@
               .tile.is-vertical.is-8
                 .tile
                   .tile.is-parent.is-vertical
-                    article.tile.is-child.notification.is-primary
+                    article.tile.is-child.notification.is-danger
                       p.title Visualizacion 1
                       p.subtitle Datos visualización 1
-                    article.tile.is-child.notification.is-warning
+                    article.tile.is-child.notification.is-success
                       p.title Visualizacion 2
                       p.subtitle Datos Visualizacion 2
                       .content
                   .tile.is-parent
-                    article.tile.is-child.notification.is-info
+                    article.tile.is-child.notification.is-warning
                       p.title Visualizacion 3
                       p.subtitle Datos Visualizacion 2
                       figure.image.is-16by10
@@ -99,7 +99,7 @@
                     .content
                       // Content
               .tile.is-parent.is-vertical
-                article.tile.is-child.notification.is-success
+                article.tile.is-child.notification.is-primary
                   //.content
                   p.title Visualizacion 5
                   p.subtitle Datos Visualizacion 5
@@ -108,7 +108,7 @@
                   .content
                     // Content
                           
-                article.tile.is-child.notification.is-success
+                article.tile.is-child.notification.is-primary
                   //.content
                   p.title Visualizacion 6
                   p.subtitle Datos Visualizacion 6
