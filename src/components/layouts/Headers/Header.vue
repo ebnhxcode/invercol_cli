@@ -3,7 +3,7 @@
     //https://mdbootstrap.com/docs/vue/content/icons-list/? 
 
     div.navbar.is-fixed-top.tabs.is-centered.is-small.is-toggle.is-toggle-rounded(style="border-radius: 2px 2px 5px 5px;")
-      //ul Distantis
+
       ul
         router-link(to="/", tag="li", exact)
           a 
@@ -17,77 +17,44 @@
             p &nbsp;
             p Libros
 
-        router-link(to="/graphs", tag="li", exact) 
-          a 
-            v-icon(name="chart-pie")
-            p &nbsp;
-            p Gráficos
-
         router-link(to="/users", tag="li", exact) 
           a 
             v-icon(name="user-alt")
             p &nbsp;
             p Usuarios
 
-        router-link(to="/Notifications", tag="li", exact) 
+        router-link(to="/#!", tag="li", exact) 
           a 
-            v-icon(name="user-alt")
+            p &nbsp;
+
+        router-link(to="/notifications", tag="li", exact) 
+          a 
+            v-icon(name="inbox")
             p &nbsp;
             p Notificaciones
 
-        router-link(to="/logs", tag="li", exact) 
+        router-link(to="/#!", tag="li", exact) 
+          a 
+            p &nbsp;
+
+        router-link(to="/graphs", tag="li", exact) 
+          a 
+            v-icon(name="chart-pie")
+            p &nbsp;
+            p Gráficos
+
+        router-link(to="/reports", tag="li", exact) 
+          a 
+            v-icon(name="file-contract")
+            p &nbsp;
+            p Reportes
+
+        router-link(to="/monitoring", tag="li", exact) 
           a 
             v-icon(name="history")
             p &nbsp;
             p Monitoreo y Logs
 
-            
-            
-
-        router-link(to="/#!", tag="li", exact) 
-          a 
-            p &nbsp;
-        //router-link(to="/tour-operadores", tag="li", exact): a Tour Operadores
-        //router-link(to="/users", tag="li", exact)
-          a 
-            v-icon(name="user")
-            p &nbsp;
-            p Usuarios
-        router-link(to="/bookings", tag="li", exact) 
-          a 
-            v-icon(name="archive")
-            p &nbsp;
-            p Reservas
-        router-link(to="/hotels", tag="li", exact) 
-          a 
-            v-icon(name="hotel")
-            p &nbsp;
-            p Hoteles
-        router-link(to="/rates", tag="li", exact) 
-          a 
-            v-icon(name="list")
-            p &nbsp;
-            p Tarifas
-        router-link(to="/services", tag="li", exact) 
-          a 
-            v-icon(name="shopping-cart")
-            p &nbsp;
-            p Servicios
-        router-link(to="/about", tag="li", exact)
-          a 
-            v-icon(name="info")
-            p &nbsp;
-            p Help
-      //ul
-        a.button(
-          @click.prevent="isVisibleBanner=!isVisibleBanner",
-          :class="isVisibleBanner==true?'is-danger':'is-primary'",
-          href="/#top"
-        )
-          v-icon(name="arrow-up",v-if="isVisibleBanner==true")
-          v-icon(name="arrow-down",v-if="isVisibleBanner==false")
-          
-    
 
 
 </template>

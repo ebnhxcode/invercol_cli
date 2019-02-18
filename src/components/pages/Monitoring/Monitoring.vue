@@ -10,7 +10,7 @@
                 .content.has-text-centered
       .hero-body
         .has-text-centered
-          h5.title Más opciones · Módulo de Usuarios
+          h5.title Más opciones · Módulo de Monitoreo y Logs
           h6 Invercol IO
 
     .hero.is-light.hero-head
@@ -31,7 +31,6 @@
                   v-icon(name="arrow-up",v-if="isVisibleOptionsBanner==true")
                   v-icon(name="arrow-down",v-if="isVisibleOptionsBanner==false")
 
-                button.button.is-small(@click.prevent="modalup") Nuevo Usuario
 
         .columns
           .column.is-2.section(style="padding-right: 0px;")
@@ -70,6 +69,7 @@
                         td Dato 5
                         td Dato 6
             
+            
               
         
 </template>
@@ -86,7 +86,7 @@ export default {
     return {
         /* Variables y Setup del Componente */
         books:[], // objetos de la lista
-        localInstanceNameDetail:'Usuarios', // nombre de la instancia local por la page que hace ref. a hoteles -> hotel o a $data[this.localInstanceName]
+        localInstanceNameDetail:'Monitoreo & Logs', // nombre de la instancia local por la page que hace ref. a hoteles -> hotel o a $data[this.localInstanceName]
         isVisibleOptionsBanner:false,
 
     }
