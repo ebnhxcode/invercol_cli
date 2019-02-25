@@ -1,6 +1,10 @@
 import About from '@/components/pages/About/About.vue'
 import Home from '@/components/pages/Home/Home.vue'
 import Books from '@/components/pages/Books/Books.vue'
+import Countries from '@/components/pages/Countries/Countries.vue'
+import Regions from '@/components/pages/Regions/Regions.vue'
+import Communes from '@/components/pages/Communes/Communes.vue'
+import Accounts from '@/components/pages/Accounts/Accounts.vue'
 import Graphs from '@/components/pages/Graphs/Graphs.vue'
 import Reports from '@/components/pages/Reports/Reports.vue'
 import Monitoring from '@/components/pages/Monitoring/Monitoring.vue'
@@ -18,6 +22,10 @@ export const routes = [
   { path: '/about', name: 'About', component: About },
   { path: '/', name: 'home', component: Home },
   { path: '/books', name: 'Books', component: Books },
+  { path: '/countries', name: 'Countries', component: Countries },
+  { path: '/regions', name: 'Regions', component: Regions },
+  { path: '/communes', name: 'Communes', component: Communes },
+  { path: '/accounts', name: 'Accounts', component: Accounts },
   { path: '/users', name: 'Usuarios', component: Users }, 
   { path: '/graphs', name: 'Graficos', component: Graphs }, 
   { path: '/reports', name: 'Reportes', component: Reports }, 

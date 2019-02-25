@@ -15,6 +15,9 @@
         router-link(to="/books", tag="a", exact) 
           v-icon(name="book-open")
           |&nbsp;Libros
+        router-link(to="/accounts", tag="a", exact) 
+          v-icon(name="file-invoice-dollar")
+          |&nbsp;Cuentas
 
       p.menu-label
         | Administración
@@ -25,6 +28,20 @@
         router-link(to="/notifications", tag="a", exact) 
           v-icon(name="inbox")
           |&nbsp;Notificaciones
+
+
+      p.menu-label
+        | Mantenedores
+      ul.menu-list
+        router-link(to="/countries", tag="a", exact) 
+          v-icon(name="flag")
+          |&nbsp;País
+        router-link(to="/regions", tag="a", exact) 
+          v-icon(name="flag")
+          |&nbsp;Región
+        router-link(to="/communes", tag="a", exact) 
+          v-icon(name="flag")
+          |&nbsp;Comunas
 
       p.menu-label
         | Transacciones
@@ -48,6 +65,7 @@
 export default {
   name:'aside-menu',
   mixins: [  ],
+
   components: {
 
   },
@@ -67,3 +85,5 @@ export default {
 
 }
 </script>
+<style lang="scss">
+</style>

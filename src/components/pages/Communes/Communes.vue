@@ -4,7 +4,7 @@
       .hero-head.header.nav.container.nav-left.nav-item.nav-right.nav-menu.content.has-text-centered
       .hero-body
         //.has-text-centered
-        h5.title Más opciones · Módulo de Libros
+        h5.title Más opciones · Mantenedor de Comunas
         h6 Invercol IO
 
 
@@ -39,23 +39,17 @@
                   thead
                      tr
                         th Acciones 
-                        th Libro ID
-                        th Libro Código
-                        th Libro Nombre
-                        th Libro Descripción
-                        th Cuentas
+                        th Comuna ID
+                        th Comuna Nombre
                   tbody
-                     tr(v-for="book in books")
+                     tr(v-for="commune in communes")
                         th 
                            .button.is-small.tooltip.is-light(data-tooltip="Opciones")
                               v-icon(name="cogs")
                            .button.is-small.tooltip.is-light(data-tooltip="Eliminar")
                               v-icon(name="times")
-                        td {{ book.libro_id }}
-                        td {{ book.libro_codigo }}
-                        td {{ book.libro_nombre }}
-                        td {{ book.libro_descripcion }}
-                        td {{ book.libros_cuentas ? book.libros_cuentas.length : 0 }}
+                        td {{ commune.comuna_id }}
+                        td {{ commune.comuna_nombre }}
 </template>
 <script>
 
@@ -72,8 +66,8 @@ export default {
   data() {
     return {
         /* Variables y Setup del Componente */
-        books:[], // objetos de la lista
-        localInstanceNameDetail:'Libros', // nombre de la instancia local por la page que hace ref. a hoteles -> hotel o a $data[this.localInstanceName]
+        communes:[], // objetos de la lista
+        localInstanceNameDetail:'Comunas', // nombre de la instancia local por la page que hace ref. a hoteles -> hotel o a $data[this.localInstanceName]
         isVisibleOptionsBanner:false,
         isLoading: false,
 
@@ -85,11 +79,11 @@ export default {
     instanceTableWithLocalObjects(){
       this.isLoading = true
 
-      this.$http.get(`http://invercolbackend.publicidadorigen.cl/frontend/libros`)
+      this.$http.get(`http://invercolbackend.publicidadorigen.cl/frontend/comunas`)
         .then(response => { // success callback
           if (response.status = 200) {
-            this.books = response.body
-            //console.log(this.books)
+            this.communes = response.body
+            //console.log(this.communes)
           }
           this.isLoading = false
       }, response => { /*// error callback //this.checkResponseHttpToAlert(response.status)*/ });

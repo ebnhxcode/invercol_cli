@@ -6,7 +6,7 @@
       .navbar-brand
         a.navbar-item(href='#!')
           img(src='http://invercol.cl/web/assets/img/logo.png') 
-          |&nbsp;Invercol
+          |&nbsp;InverCol
           //img(src='@/assets/images/hotels.jpg', style="height:240px;width:320px;")
           //img(src='https://bulma.io/images/bulma-logo.png', width='112', height='28')
         //a.navbar-burger.burger(role='button', aria-label='menu', aria-expanded='false', data-target='navbarBasicExample')
