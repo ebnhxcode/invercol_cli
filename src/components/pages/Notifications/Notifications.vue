@@ -9,9 +9,9 @@
               .nav-right.nav-menu
                 .content.has-text-centered
       .hero-body
-        .has-text-centered
-          h5.title Más opciones · Módulo de Notificaciones Generales
-          h6 Invercol IO
+        //.has-text-centered
+        h5.title Más opciones · Módulo de Notificaciones Generales
+        h6 Invercol IO
 
     .hero.is-light.hero-head
       .content
@@ -20,7 +20,7 @@
           .column.is-12
             div.box(style="border-radius: 2px 2px 5px 5px;")
 
-              .buttons(style="float:right;")
+              .buttons
 
                 button.button.is-small(
                   @click.prevent="isVisibleOptionsBanner=!isVisibleOptionsBanner",
@@ -34,15 +34,7 @@
 
         .columns
           .column.is-2.section(style="padding-right: 0px;")
-            div.box
-              h2.has-text-centered {{ $data['localInstanceNameDetail'] }}
-              h6 Filtros generales
-              hr
-              h6 Tablero
-              hr
-              h6 Trazabilidad
-              hr
-              h6 Búsqueda avanzada
+            aside-menu
 
           .column.is-10.section
             div.box
@@ -77,10 +69,12 @@
 </template>
 <script>
 
+import AsideMenu from '@/components/layouts/Menus/AsideMenu.vue'
+
 export default {
   mixins: [  ],
   components: {
-
+    AsideMenu
   },
   created(){
   },
