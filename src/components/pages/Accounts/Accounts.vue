@@ -38,6 +38,52 @@
           .column.is-10.section
 
 
+            .columns
+              .column.is-6
+                div.box
+                  h2 Nueva Cuenta
+                  .field
+                    .field
+                      label Código
+                      input.input.is-fullwidth(type='text', v-model='nueva_cuenta.cuenta_id')
+                    .field
+                      label Nombre
+                      input.input.is-fullwidth(type='text', v-model='nueva_cuenta.libro_nombre')
+                    .field
+                      label Descripción
+                      input.textarea.is-fullwidth(v-model='nueva_cuenta.libro_descripcion', rows="1")
+
+                  .field.is-grouped
+                    button.button.is-primary.is-small(
+                        @click.prevent="guardar_nueva_cuenta()"
+                    ) Guardar Cuenta
+
+              .column.is-6
+                div.box
+                  h2 Asociar Cuenta a Libro
+                  .field
+
+
+                    .field
+                      label Seleccione Cuenta
+                      .select.is-fullwidth
+                        select(v-model='nueva_cuenta_libro.cuenta_id')
+                          option(value='')
+                          option(v-for='c in cuentas', :value='a.cuenta_id') {{ `${c.cuenta_id} - ${c.cuenta_nombre}` }}
+
+
+                    .field
+                      label Seleccione Libro
+                      .select.is-fullwidth
+                        select(v-model='nueva_cuenta_libro.libro_id')
+                          option(value='')
+                          option(v-for='l in libros', :value='l.libro_id') {{ l.libro_nombre }}
+
+
+                  .field.is-grouped
+                    button.button.is-primary.is-small(
+                        @click.prevent="saveNewBook()"
+                    ) Guardar Asociacion
 
             div.box
                h2 Cuentas
@@ -53,19 +99,19 @@
                         th Cuenta Dependencia
                         th En Libros
                   tbody
-                     tr(v-for="account in accounts")
+                     tr(v-for="cuenta in cuentas")
                         th 
                            .button.is-small.tooltip.is-light(data-tooltip="Opciones")
                               v-icon(name="cogs")
                            .button.is-small.tooltip.is-light(data-tooltip="Eliminar")
                               v-icon(name="times")
-                        td {{ account.cuenta_id }}
-                        td {{ account.cuenta_codigo || 'Sin codigo adicional incorporado' }}
-                        td {{ account.cuenta_nombre }}
-                        td {{ account.cuenta_descripcion }}
-                        td {{ account.cuenta_titular == 0 ? 'Cuenta Titular' : 'Normal' }}
-                        td {{ account.cuenta_dependencia_id ? account.cuenta_dependencia.cuenta_dependencia_nombre : 'Sin dependencia' }}
-                        td {{ account.libros_cuentas ? account.libros_cuentas.length : 0 }}
+                        td {{ cuenta.cuenta_id }}
+                        td {{ cuenta.cuenta_codigo || 'Sin codigo adicional incorporado' }}
+                        td {{ cuenta.cuenta_nombre }}
+                        td {{ cuenta.cuenta_descripcion }}
+                        td {{ cuenta.cuenta_titular == 0 ? 'Cuenta Titular' : 'Normal' }}
+                        td {{ cuenta.cuenta_dependencia_id ? cuenta.cuenta_dependencia.cuenta_dependencia_nombre : 'Sin dependencia' }}
+                        td {{ cuenta.libros_cuentas ? cuenta.libros_cuentas.length : 0 }}
             
             
               
@@ -86,9 +132,12 @@ export default {
   data() {
     return {
         /* Variables y Setup del Componente */
-        accounts:[], // objetos de la lista
+        cuentas:[], // objetos de la lista
+        libros:[], // libros
         localInstanceNameDetail:'Cuentas', // nombre de la instancia local por la page que hace ref. a hoteles -> hotel o a $data[this.localInstanceName]
         isVisibleOptionsBanner:false,
+        nueva_cuenta:{},
+        nueva_cuenta_libro:{},
 
     }
   },
@@ -103,8 +152,16 @@ export default {
       this.$http.get(`http://invercolbackend.publicidadorigen.cl/frontend/cuentas`)
         .then(response => { // success callback
           if (response.status = 200) {
-            this.accounts = response.body
-            //console.log(this.books)
+            this.cuentas = response.body
+            
+          }
+          this.isLoading = false
+      }, response => { /*// error callback //this.checkResponseHttpToAlert(response.status)*/ });
+      this.$http.get(`http://invercolbackend.publicidadorigen.cl/frontend/libros`)
+        .then(response => { // success callback
+          if (response.status = 200) {
+            this.libros = response.body
+          
           }
           this.isLoading = false
       }, response => { /*// error callback //this.checkResponseHttpToAlert(response.status)*/ });

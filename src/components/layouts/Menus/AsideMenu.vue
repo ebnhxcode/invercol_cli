@@ -12,6 +12,12 @@
       p.menu-label
         | General
       ul.menu-list
+        router-link(to="/fichas", tag="a", exact) 
+          v-icon(name="book-open")
+          |&nbsp;Fichas
+        router-link(to="/contratos", tag="a", exact) 
+          v-icon(name="book-open")
+          |&nbsp;Contratos
         router-link(to="/libros", tag="a", exact) 
           v-icon(name="book-open")
           |&nbsp;Libros
@@ -20,7 +26,10 @@
           |&nbsp;Cuentas
         router-link(to="/establecimientos", tag="a", exact) 
           v-icon(name="file-invoice-dollar")
-          |&nbsp;Cuentas
+          |&nbsp;Establecimientos
+        router-link(to="/remuneraciones", tag="a", exact) 
+          v-icon(name="file-invoice-dollar")
+          |&nbsp;Remuneraciones
         router-link(to="/trabajadores", tag="a", exact) 
           v-icon(name="file-invoice-dollar")
           |&nbsp;Trabajadores
