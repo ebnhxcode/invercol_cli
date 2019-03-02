@@ -38,54 +38,6 @@
           .column.is-10.section
 
 
-            .columns
-              .column.is-6
-                div.box
-                  h2 Nueva Cuenta
-                  .field
-                    .field
-                      label Cuenta Código
-                      input.input.is-fullwidth(type='text', v-model='newBook.cuenta_id')
-                    .field
-                      label Cuenta Nombre
-                      input.input.is-fullwidth(type='text', v-model='newBook.libro_nombre')
-                    .field
-                      label Cuenta Descripción
-                      input.textarea.is-fullwidth(v-model='newBook.libro_descripcion', rows="1")
-                    .field
-                      label Seleccione Cuenta
-                      .select.is-fullwidth
-                        select(v-model='newBookAccount.cuenta_id')
-                          option(value='')
-                          option(v-for='a in accounts', :value='a.cuenta_id') {{ `${a.cuenta_id} - ${a.cuenta_nombre}` }}
-
-                  .field.is-grouped
-                    button.button.is-primary.is-small(
-                        @click.prevent="saveNewBook()"
-                    ) Guardar Cuenta
-
-              .column.is-6
-                div.box
-                  h2 Asociar Libro a Cuenta
-                  .field
-                    .field
-                      label Seleccione Libro
-                      .select.is-fullwidth
-                        select(v-model='newBookAccount.libro_id')
-                          option(value='')
-                          option(v-for='b in books', :value='b.libro_id') {{ b.libro_nombre }}
-
-                    .field
-                      label Seleccione Cuenta
-                      .select.is-fullwidth
-                        select(v-model='newBookAccount.cuenta_id')
-                          option(value='')
-                          option(v-for='a in accounts', :value='a.cuenta_id') {{ `${a.cuenta_id} - ${a.cuenta_nombre}` }}
-
-                  .field.is-grouped
-                    button.button.is-primary.is-small(
-                        @click.prevent="saveNewBook()"
-                    ) Guardar Asociacion
 
             div.box
                h2 Cuentas

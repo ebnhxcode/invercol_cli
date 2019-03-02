@@ -12,12 +12,21 @@
       p.menu-label
         | General
       ul.menu-list
-        router-link(to="/books", tag="a", exact) 
+        router-link(to="/libros", tag="a", exact) 
           v-icon(name="book-open")
           |&nbsp;Libros
-        router-link(to="/accounts", tag="a", exact) 
+        router-link(to="/cuentas", tag="a", exact) 
           v-icon(name="file-invoice-dollar")
           |&nbsp;Cuentas
+        router-link(to="/establecimientos", tag="a", exact) 
+          v-icon(name="file-invoice-dollar")
+          |&nbsp;Cuentas
+        router-link(to="/trabajadores", tag="a", exact) 
+          v-icon(name="file-invoice-dollar")
+          |&nbsp;Trabajadores
+        router-link(to="/rbd", tag="a", exact) 
+          v-icon(name="file-invoice-dollar")
+          |&nbsp;RBD
 
       p.menu-label
         | Administración
