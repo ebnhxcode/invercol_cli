@@ -1,7 +1,6 @@
 <template lang="pug">
   div(style="position: sticky;padding-top: 10px;top: 0;display: flex;")
-    aside.menu
-
+    aside.menu 
       p.menu-label
         | Home
       ul.menu-list
@@ -26,6 +25,7 @@
 
       p.menu-label
         | Mantenedores
+      input(type="checkbox")
       ul.menu-list
 
 
@@ -63,17 +63,15 @@
 
 
       p.menu-label
-        | Transacciones
+        | Reportería
       ul.menu-list
         router-link(to="/graficos", tag="a", exact) 
           v-icon(name="chart-pie")
           |&nbsp;Gráficos
-
         router-link(to="/reportes", tag="a", exact) 
           v-icon(name="file-contract")
           |&nbsp;Reportes
-
-        router-link(to="/monitoreo", tag="a", exact) 
+        router-link(to="/monitoreos", tag="a", exact) 
           v-icon(name="history")
           |&nbsp;Monitoreo y Logs
 
@@ -104,5 +102,8 @@ export default {
 
 }
 </script>
-<style lang="scss">
+<style lang="css">
+  input:not(:checked) + ul {
+    display: none;
+  }
 </style>
