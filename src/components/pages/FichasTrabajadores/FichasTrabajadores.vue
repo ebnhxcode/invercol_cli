@@ -26,7 +26,7 @@
 
                 button.button.is-small() Nueva Ficha
                 
-                modal-new-book
+                
 
         .columns
           .column.is-2.section(style="padding-right: 0px;")
@@ -50,9 +50,9 @@
                       .select.is-fullwidth
                         select(v-model='nueva_ficha.region_id')
                           option(value='')
-                          option(value='General')
-                          option(value='Sep')
-                          option(value='Pie')
+                          option(value='General') General
+                          option(value='Sep') Sep
+                          option(value='Pie') Pie
                     .field
                       label Fecha Inicio
                       input.input.is-fullwidth(type="date", v-model='nueva_ficha.establecimiento_direccion')
@@ -79,10 +79,9 @@
                     ) Guardar Ficha
 
               .column.is-6
-                div.box
 
             div.box
-               h2 Fichas               
+               h2 Fichas Trabajadores
                table
                   thead
                      tr

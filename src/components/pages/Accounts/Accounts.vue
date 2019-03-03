@@ -25,8 +25,8 @@
                   v-icon(name="arrow-up",v-if="isVisibleOptionsBanner==true")
                   v-icon(name="arrow-down",v-if="isVisibleOptionsBanner==false")
 
-                button.button.is-small(@click.prevent="modalup") Nueva Cuenta
-                button.button.is-small(@click.prevent="modalup") Asociar Cuenta a Libro
+                button.button.is-small() Nueva Cuenta
+                button.button.is-small() Asociar Cuenta a Libro
 
         .columns
           .column.is-2.section(style="padding-right: 0px;")
@@ -55,7 +55,7 @@
 
                   .field.is-grouped
                     button.button.is-primary.is-small(
-                        @click.prevent="guardar_nueva_cuenta()"
+                        @click.prevent="guardar_nueva_cuenta(nueva_cuenta)"
                     ) Guardar Cuenta
 
               .column.is-6
@@ -69,7 +69,7 @@
                       .select.is-fullwidth
                         select(v-model='nueva_cuenta_libro.cuenta_id')
                           option(value='')
-                          option(v-for='c in cuentas', :value='a.cuenta_id') {{ `${c.cuenta_id} - ${c.cuenta_nombre}` }}
+                          option(v-for='c in cuentas', :value='c.cuenta_id') {{ `${c.cuenta_id} - ${c.cuenta_nombre}` }}
 
 
                     .field
@@ -82,7 +82,6 @@
 
                   .field.is-grouped
                     button.button.is-primary.is-small(
-                        @click.prevent="saveNewBook()"
                     ) Guardar Asociacion
 
             div.box
@@ -97,21 +96,21 @@
                         th Cuenta Descripción
                         th Cuenta Titular
                         th Cuenta Dependencia
-                        th En Libros
+                        th Libros
                   tbody
-                     tr(v-for="cuenta in cuentas")
+                     tr(v-for="c in cuentas")
                         th 
                            .button.is-small.tooltip.is-light(data-tooltip="Opciones")
                               v-icon(name="cogs")
                            .button.is-small.tooltip.is-light(data-tooltip="Eliminar")
                               v-icon(name="times")
-                        td {{ cuenta.cuenta_id }}
-                        td {{ cuenta.cuenta_codigo || 'Sin codigo adicional incorporado' }}
-                        td {{ cuenta.cuenta_nombre }}
-                        td {{ cuenta.cuenta_descripcion }}
-                        td {{ cuenta.cuenta_titular == 0 ? 'Cuenta Titular' : 'Normal' }}
-                        td {{ cuenta.cuenta_dependencia_id ? cuenta.cuenta_dependencia.cuenta_dependencia_nombre : 'Sin dependencia' }}
-                        td {{ cuenta.libros_cuentas ? cuenta.libros_cuentas.length : 0 }}
+                        td {{ c.cuenta_id }}
+                        td {{ c.cuenta_codigo || 'Sin codigo adicional incorporado' }}
+                        td {{ c.cuenta_nombre }}
+                        td {{ c.cuenta_descripcion }}
+                        td {{ c.cuenta_titular == 0 ? 'Cuenta Titular' : 'Normal' }}
+                        td {{ c.cuenta_dependencia_id ? c.cuenta_dependencia.cuenta_dependencia_nombre : 'Sin dependencia' }}
+                        td {{ c.libros_cuentas ? c.libros_cuentas.length : 0 }}
             
             
               
@@ -136,8 +135,15 @@ export default {
         libros:[], // libros
         localInstanceNameDetail:'Cuentas', // nombre de la instancia local por la page que hace ref. a hoteles -> hotel o a $data[this.localInstanceName]
         isVisibleOptionsBanner:false,
-        nueva_cuenta:{},
-        nueva_cuenta_libro:{},
+        nueva_cuenta:{
+          'cuenta_id':null,
+          'cuenta_nombre':null,
+          'cuenta_descripcion':null,
+        },
+        nueva_cuenta_libro:{
+          'cuenta_id':null,
+          'libro_id':null,
+        },
 
     }
   },
@@ -167,7 +173,9 @@ export default {
       }, response => { /*// error callback //this.checkResponseHttpToAlert(response.status)*/ });
     },
 
-  
+    guardar_nueva_cuenta: function (nueva_cuenta) {
+
+    },
 
 
   },

@@ -25,8 +25,7 @@
                   v-icon(name="arrow-up",v-if="isVisibleOptionsBanner==true")
                   v-icon(name="arrow-down",v-if="isVisibleOptionsBanner==false")
 
-                button.button.is-small(@click.prevent="modalup") Nuevo Libro
-                button.button.is-small(@click.prevent="modalup") Asociar Libro a Cuenta
+                button.button.is-small() Nuevo País
 
         .columns
           .column.is-2.section(style="padding-right: 0px;")
@@ -34,7 +33,7 @@
 
           .column.is-10.section
             div.box
-               h2 Libros               
+               h2 Paises               
                table
                   thead
                      tr

@@ -10,11 +10,38 @@
           |&nbsp;Home
 
       p.menu-label
-        | General
+        | Libros
       ul.menu-list
-        router-link(to="/fichas", tag="a", exact) 
+
+      p.menu-label
+        | Administración
+      ul.menu-list
+        router-link(to="/usuarios", tag="a", exact) 
+          v-icon(name="user-alt")
+          |&nbsp;Usuarios
+        router-link(to="/notificaciones", tag="a", exact) 
+          v-icon(name="inbox")
+          |&nbsp;Notificaciones
+
+
+      p.menu-label
+        | Mantenedores
+      ul.menu-list
+
+
+        router-link(to="/paises", tag="a", exact) 
+          v-icon(name="flag")
+          |&nbsp;País
+        router-link(to="/regiones", tag="a", exact) 
+          v-icon(name="flag")
+          |&nbsp;Región
+        router-link(to="/comunas", tag="a", exact) 
+          v-icon(name="flag")
+          |&nbsp;Comunas
+
+        router-link(to="/fichastrabajadores", tag="a", exact) 
           v-icon(name="book-open")
-          |&nbsp;Fichas
+          |&nbsp;Fichas Trabajadores
         router-link(to="/contratos", tag="a", exact) 
           v-icon(name="book-open")
           |&nbsp;Contratos
@@ -23,56 +50,30 @@
           |&nbsp;Libros
         router-link(to="/cuentas", tag="a", exact) 
           v-icon(name="file-invoice-dollar")
-          |&nbsp;Cuentas
+          |&nbsp;Plan de Cuentas
         router-link(to="/establecimientos", tag="a", exact) 
           v-icon(name="file-invoice-dollar")
           |&nbsp;Establecimientos
         router-link(to="/remuneraciones", tag="a", exact) 
           v-icon(name="file-invoice-dollar")
           |&nbsp;Remuneraciones
-        router-link(to="/trabajadores", tag="a", exact) 
-          v-icon(name="file-invoice-dollar")
-          |&nbsp;Trabajadores
         router-link(to="/rbd", tag="a", exact) 
           v-icon(name="file-invoice-dollar")
           |&nbsp;RBD
 
-      p.menu-label
-        | Administración
-      ul.menu-list
-        router-link(to="/users", tag="a", exact) 
-          v-icon(name="user-alt")
-          |&nbsp;Usuarios
-        router-link(to="/notifications", tag="a", exact) 
-          v-icon(name="inbox")
-          |&nbsp;Notificaciones
-
-
-      p.menu-label
-        | Mantenedores
-      ul.menu-list
-        router-link(to="/countries", tag="a", exact) 
-          v-icon(name="flag")
-          |&nbsp;País
-        router-link(to="/regions", tag="a", exact) 
-          v-icon(name="flag")
-          |&nbsp;Región
-        router-link(to="/communes", tag="a", exact) 
-          v-icon(name="flag")
-          |&nbsp;Comunas
 
       p.menu-label
         | Transacciones
       ul.menu-list
-        router-link(to="/graphs", tag="a", exact) 
+        router-link(to="/graficos", tag="a", exact) 
           v-icon(name="chart-pie")
           |&nbsp;Gráficos
 
-        router-link(to="/reports", tag="a", exact) 
+        router-link(to="/reportes", tag="a", exact) 
           v-icon(name="file-contract")
           |&nbsp;Reportes
 
-        router-link(to="/monitoring", tag="a", exact) 
+        router-link(to="/monitoreo", tag="a", exact) 
           v-icon(name="history")
           |&nbsp;Monitoreo y Logs
 
