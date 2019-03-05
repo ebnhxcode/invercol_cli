@@ -1,53 +1,91 @@
-import About from '@/components/pages/About/About.vue'
+/**
+ * Home
+ */
 import Home from '@/components/pages/Home/Home.vue'
-import Libros from '@/components/pages/Libros/Libros.vue'
-import Establecimientos from '@/components/pages/Establecimientos/Establecimientos.vue'
-import FichasTrabajadores from '@/components/pages/FichasTrabajadores/FichasTrabajadores.vue'
-import Rbd from '@/components/pages/Rbd/Rbd.vue'
-import Contratos from '@/components/pages/Contratos/Contratos.vue'
-import Remuneraciones from '@/components/pages/Remuneraciones/Remuneraciones.vue'
-import Paises from '@/components/pages/Paises/Paises.vue'
-import Regiones from '@/components/pages/Regiones/Regiones.vue'
-import Comunas from '@/components/pages/Comunas/Comunas.vue'
-import Cuentas from '@/components/pages/Cuentas/Cuentas.vue'
-import Graficos from '@/components/pages/Graficos/Graficos.vue'
-import Reportes from '@/components/pages/Reportes/Reportes.vue'
-import Monitoreos from '@/components/pages/Monitoreos/Monitoreos.vue'
-import Notificaciones from '@/components/pages/Notificaciones/Notificaciones.vue'
-
+/**
+ * Mantenedores
+*/
+import FichasTrabajadores from '@/components/pages/Mantenedores/FichasTrabajadores/FichasTrabajadores.vue'
+import FuncionesCargos from '@/components/pages/Mantenedores/FuncionesCargos/FuncionesCargos.vue'
+import Contratos from '@/components/pages/Mantenedores/Contratos/Contratos.vue'
+import Establecimientos from '@/components/pages/Mantenedores/Establecimientos/Establecimientos.vue'
+import Rbd from '@/components/pages/Mantenedores/Rbd/Rbd.vue'
+import LibrosPorCuenta from '@/components/pages/Mantenedores/LibrosPorCuenta/LibrosPorCuenta.vue'
+import Paises from '@/components/pages/Mantenedores/Paises/Paises.vue'
+import Regiones from '@/components/pages/Mantenedores/Regiones/Regiones.vue'
+import Comunas from '@/components/pages/Mantenedores/Comunas/Comunas.vue'
+import Usuarios from '@/components/pages/Mantenedores/Usuarios/Usuarios.vue'
+  /**
+   * Plan de Cuentas - Sub Menu de Mantenedores
+  */
+  import CuentasPorLibro from '@/components/pages/Mantenedores/PlanDeCuentas/CuentasPorLibro/CuentasPorLibro.vue'
+  import SubvencionPorCuenta from '@/components/pages/Mantenedores/PlanDeCuentas/SubvencionPorCuenta/SubvencionPorCuenta.vue'
+/**
+ * Perfil de Usuarios
+ */
+import PerfilUsuario from '@/components/pages/PerfilDeUsuarios/PerfilUsuario/PerfilUsuario.vue'
+import Notificaciones from '@/components/pages/PerfilDeUsuarios/Notificaciones/Notificaciones.vue'
+import RbdUsuarios from '@/components/pages/PerfilDeUsuarios/RbdUsuarios/RbdUsuarios.vue'
+/**
+ * Libros
+ */
+import Remuneraciones from '@/components/pages/Libros/Remuneraciones/Remuneraciones.vue'
+import OtrosIngresos from '@/components/pages/Libros/OtrosIngresos/OtrosIngresos.vue'
+import Honorarios from '@/components/pages/Libros/Honorarios/Honorarios.vue'
+import Compras from '@/components/pages/Libros/Compras/Compras.vue'
+import Ficom from '@/components/pages/Libros/Ficom/Ficom.vue'
+/**
+ * Reportería
+ */
+import Graficos from '@/components/pages/Reporteria/Graficos/Graficos.vue'
+import Reportes from '@/components/pages/Reporteria/Reportes/Reportes.vue'
+import Monitoreos from '@/components/pages/Reporteria/Monitoreos/Monitoreos.vue'
 
 /**
  * Del otro sistema
  */
-import Hotels from '@/components/pages/Hotels/Hotels.vue'
-import Rates from '@/components/pages/Rates/Rates.vue'
-import Bookings from '@/components/pages/Bookings/Bookings.vue'
-import Services from '@/components/pages/Services/Services.vue'
-import Users from '@/components/pages/Users/Users.vue'
+//import Hotels from '@/components/pages/Hotels/Hotels.vue'
+//import Rates from '@/components/pages/Rates/Rates.vue'
+//import Bookings from '@/components/pages/Bookings/Bookings.vue'
+//import Services from '@/components/pages/Services/Services.vue'
+//import Users from '@/components/pages/Users/Users.vue'
+//import About from '@/components/pages/About/About.vue'
 
 export const routes = [
-  { path: '/about', name: 'About', component: About },
+  /* Rutas Home */
   { path: '/', name: 'home', component: Home },
-  { path: '/libros', name: 'Libros', component: Libros },
-  { path: '/establecimientos', name: 'Establecimientos', component: Establecimientos },
-  { path: '/fichastrabajadores', name: 'FichasTrabajadores', component: FichasTrabajadores },
-  { path: '/rbd', name: 'Rbd', component: Rbd },
-  { path: '/contratos', name: 'Contratos', component: Contratos },
-  { path: '/remuneraciones', name: 'Remuneraciones', component: Remuneraciones },
-  { path: '/paises', name: 'Paises', component: Paises },
-  { path: '/regiones', name: 'Regiones', component: Regiones },
-  { path: '/comunas', name: 'Comunas', component: Comunas },
-  { path: '/cuentas', name: 'Cuentas', component: Cuentas },
-  { path: '/usuarios', name: 'Usuarios', component: Users }, 
-  { path: '/graficos', name: 'Graficos', component: Graficos }, 
-  { path: '/reportes', name: 'Reportes', component: Reportes }, 
-  { path: '/monitoreos', name: 'Monitoreos y Logs', component: Monitoreos }, 
-  { path: '/notificaciones', name: 'Notificaciones', component: Notificaciones }, 
-
-
-  { path: '/hotels', name: 'Hotels', component: Hotels },
-  { path: '/rates', name: 'Rates', component: Rates },
-  { path: '/bookings', name: 'Bookings', component: Bookings },
-  { path: '/services', name: 'Services', component: Services },
-  
+  { path: '/home', name: 'home', component: Home },
+  /* Rutas Mantenedores */
+  { path: '/mantenedores/fichastrabajadores', name: 'FichasTrabajadores', component: FichasTrabajadores },
+  { path: '/mantenedores/funcionescargos', name: 'FuncionesCargos', component: FuncionesCargos },
+  { path: '/mantenedores/contratos', name: 'Contratos', component: Contratos },
+  { path: '/mantenedores/establecimientos', name: 'Establecimientos', component: Establecimientos },
+  { path: '/mantenedores/rbd', name: 'Rbd', component: Rbd },
+  { path: '/mantenedores/librosporcuenta', name: 'LibrosPorCuenta', component: LibrosPorCuenta },
+  { path: '/mantenedores/paises', name: 'Paises', component: Paises },
+  { path: '/mantenedores/regiones', name: 'Regiones', component: Regiones },
+  { path: '/mantenedores/comunas', name: 'Comunas', component: Comunas },
+  { path: '/mantenedores/usuarios', name: 'Usuarios', component: Usuarios },
+    /* Rutas Plan de Cuentas - Sub de Mantenedores */
+    { path: '/mantenedores/plandecuentas/cuentasporlibro', name: 'CuentasPorLibro', component: CuentasPorLibro },
+    { path: '/mantenedores/plandecuentas/subvencionporcuenta', name: 'SubvencionPorCuenta', component: SubvencionPorCuenta },
+  /* Rutas Perfil de Usuarios */
+  { path: '/perfildeusuarios/notificaciones', name: 'Notificaciones', component: Notificaciones },
+  { path: '/perfildeusuarios/perfilusuario', name: 'PerfilUsuario', component: PerfilUsuario },
+  { path: '/perfildeusuarios/rbdusuarios', name: 'RbdUsuarios', component: RbdUsuarios },
+  /* Rutas Libros */
+  { path: '/libros/remuneraciones', name: 'remuneraciones', component: Remuneraciones },
+  { path: '/libros/otrosingresos', name: 'OtrosIngresos', component: OtrosIngresos },
+  { path: '/libros/honorarios', name: 'Honorarios', component: Honorarios },
+  { path: '/libros/compras', name: 'Comras', component: Compras },
+  { path: '/libros/ficom', name: 'Ficom', component: Ficom },
+  /* Rutas Reporteria */
+  { path: '/reporteria/graficos', name: 'Graficos', component: Graficos }, 
+  { path: '/reporteria/reportes', name: 'Reportes', component: Reportes }, 
+  { path: '/reporteria/monitoreos', name: 'Monitoreos y Logs', component: Monitoreos }, 
+  //{ path: '/hotels', name: 'Hotels', component: Hotels },
+  //{ path: '/rates', name: 'Rates', component: Rates },
+  //{ path: '/bookings', name: 'Bookings', component: Bookings },
+  //{ path: '/services', name: 'Services', component: Services },
+  //{ path: '/about', name: 'About', component: About },
 ]

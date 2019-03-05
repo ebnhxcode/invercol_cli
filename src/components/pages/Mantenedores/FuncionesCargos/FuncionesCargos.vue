@@ -4,7 +4,7 @@
       .hero-head.header.nav.container.nav-left.nav-item.nav-right.nav-menu.content.has-text-centered
       .hero-body
         //.has-text-centered
-        h5.title Más opciones · Módulo de Contratos
+        h5.title Más opciones · Módulo de Funciones (Cargos)
         h6 Invercol IO
 
     .hero.is-light.hero-head
@@ -24,9 +24,9 @@
                   v-icon(name="arrow-up",v-if="isVisibleOptionsBanner==true")
                   v-icon(name="arrow-down",v-if="isVisibleOptionsBanner==false")
 
-                button.button.is-small() Nuevo Contrato
+                button.button.is-small() Nueva Función
                 
-                modal-new-book
+                
 
         .columns
           .column.is-2.section(style="padding-right: 0px;")
@@ -34,13 +34,43 @@
 
           .column.is-10.section
 
+            .columns
+              .column.is-6
+                div.box
+                  h2 Nueva Función
+                  .field
+                    .field
+                      label Campo 1
+                      input.input.is-fullwidth(type='text', v-model='nueva_funcion.campo_1')
+                    .field
+                      label Campo 2
+                      input.input.is-fullwidth(type='text', v-model='nueva_funcion.campo_2')
+                    .field
+                      label Campo 3
+                      .select.is-fullwidth
+                        select(v-model='nueva_funcion.campo_3')
+                          option(value='')
+                          option(value='Tipo1') Tipo 1
+                          option(value='Tipo2') Tipo 2
+                          option(value='Tipo3') Tipo 3
+                    .field
+                      label Campo 4
+                      input.input.is-fullwidth(type="date", v-model='nueva_funcion.campo_4')
+
+                  .field.is-grouped
+                    button.button.is-primary.is-small(
+                        @click.prevent="guardar_funcion()"
+                    ) Guardar Función
+
+              .column.is-6
+
             div.box
-               h2 Contratos               
+               h2 Funciones
                table
                   thead
                      tr
                         th Acciones 
-                        th Contrato ID
+                        th Ficha ID
                         th Nombre
                         th Descripción
                   tbody
@@ -72,11 +102,11 @@ export default {
   data() {
     return {
         /* Variables y Setup del Componente */
-        contratos:[], // lista de libros
-        localInstanceNameDetail:'Contratos', // nombre de la instancia local por la page que hace ref. a hoteles -> hotel o a $data[this.localInstanceName]
+        fichas:[], // lista de libros
+        localInstanceNameDetail:'Funciones', // nombre de la instancia local por la page que hace ref. a hoteles -> hotel o a $data[this.localInstanceName]
         isVisibleOptionsBanner:false,
         isLoading: false,
-        nuevo_rbd: {
+        nueva_funcion: {
 
         },
 
@@ -90,6 +120,8 @@ export default {
 
 
     },
+
+    guardar_funcion: function () {},
 
 
 

@@ -10,7 +10,7 @@
                 .content.has-text-centered
       .hero-body
         //.has-text-centered
-        h5.title Más opciones · Módulo de Notificaciones Generales
+        h5.title Más opciones · Módulo de Usuarios
         h6 Invercol IO
 
     .hero.is-light.hero-head
@@ -31,14 +31,46 @@
                   v-icon(name="arrow-up",v-if="isVisibleOptionsBanner==true")
                   v-icon(name="arrow-down",v-if="isVisibleOptionsBanner==false")
 
+                button.button.is-small(@click.prevent="modalup") Nuevo Usuario
 
         .columns
           .column.is-2.section(style="padding-right: 0px;")
             aside-menu
 
           .column.is-10.section
+
+
+            .column.is-6
+              div.box
+                h2 Nuevo Usuario
+                .field
+                  .field
+                    label Campo 1
+                    input.input.is-fullwidth(type='text', v-model='nuevo_usuario.campo_1')
+                  .field
+                    label Campo 2
+                    input.input.is-fullwidth(type='text', v-model='nuevo_usuario.campo_2')
+                  .field
+                    label Campo 3
+                    .select.is-fullwidth
+                      select(v-model='nuevo_usuario.campo_3')
+                        option(value='')
+                        option(value='Tipo1') Tipo 1
+                        option(value='Tipo2') Tipo 2
+                        option(value='Tipo3') Tipo 3
+                  .field
+                    label Campo 4
+                    input.input.is-fullwidth(type="date", v-model='nuevo_usuario.campo_4')
+
+                .field.is-grouped
+                  button.button.is-primary.is-small(
+                      @click.prevent="guardar_usuario()"
+                  ) Guardar Usuario
+
+            .column.is-6
+
             div.box
-               h2 Sección de la Tabla
+               h2 Lista de Usuarios
                table
                   thead
                      tr
@@ -63,7 +95,6 @@
                         td Dato 5
                         td Dato 6
             
-            
               
         
 </template>
@@ -77,13 +108,17 @@ export default {
     AsideMenu
   },
   created(){
+    this.instanceTableWithLocalObjects()
   },
   data() {
     return {
         /* Variables y Setup del Componente */
-        books:[], // objetos de la lista
-        localInstanceNameDetail:'Notificaciones', // nombre de la instancia local por la page que hace ref. a hoteles -> hotel o a $data[this.localInstanceName]
+        usuarios:[], // objetos de la lista
+        localInstanceNameDetail:'Usuarios', // nombre de la instancia local por la page que hace ref. a hoteles -> hotel o a $data[this.localInstanceName]
         isVisibleOptionsBanner:false,
+        nuevo_usuario: {
+
+        }
 
     }
   },
@@ -92,6 +127,14 @@ export default {
 
   },
   methods: {
+
+    instanceTableWithLocalObjects(){
+
+    },
+
+    guardar_usuario: function () {},
+
+
 
   },
 

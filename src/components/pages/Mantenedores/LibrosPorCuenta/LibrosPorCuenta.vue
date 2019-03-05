@@ -27,7 +27,7 @@
                 button.button.is-small(@click.prevent="modalNewBook()") Nuevo Libro
                 button.button.is-small(@click.prevent="false") Asociar Libro a Cuenta
                 
-                modal-new-book
+                //modal-new-book
 
         .columns
           .column.is-2.section(style="padding-right: 0px;")
@@ -107,13 +107,13 @@
 <script>
 
 import AsideMenu from '@/components/layouts/Menus/AsideMenu.vue'
-import ModalNewBook from '@/components/pages/Books/Modals/ModalNewBook/ModalNewBook.vue'
+//import ModalNewBook from '@/components/pages/Books/Modals/ModalNewBook/ModalNewBook.vue'
 
 export default {
   mixins: [  ],
   components: {
     AsideMenu,
-    ModalNewBook
+    //ModalNewBook
   },
   created(){
     this.instanceTableWithLocalObjects()
@@ -172,7 +172,7 @@ export default {
 
     modalNewBook: function () {
       console.log('si estoy llegando al modal')
-      this.$modal.show('modal-new-book')
+      //this.$modal.show('modal-new-book')
     }
   }
 
