@@ -5,7 +5,8 @@
         .container
           .content.has-text-centered
             .section
-              p Distantis {{ d.getFullYear() }} · Made with 💪
+              p Invercol {{ d.getFullYear() }} · 💪
+              notifications(group="global",position="bottom right")
         // ❤
 </template>
 <script>

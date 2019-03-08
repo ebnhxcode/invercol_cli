@@ -62,6 +62,11 @@ Vue.component('v-icon', Icon)
 import VModal from 'vue-js-modal'
 Vue.use(VModal, {dialog: true})
 
+// Se importa la libreria de notificaciones
+import Notifications from 'vue-notification'
+// Se instala el plugin importado
+Vue.use(Notifications)
+
 
 /* eslint-disable no-new, render de la app */
 new Vue({

@@ -54,7 +54,7 @@ import Monitoreos from '@/components/pages/Reporteria/Monitoreos/Monitoreos.vue'
 export const routes = [
   /* Rutas Home */
   { path: '/', name: 'home', component: Home },
-  { path: '/home', name: 'home', component: Home },
+  //{ path: '/home', name: 'home', component: Home },
   /* Rutas Mantenedores */
   { path: '/mantenedores/fichastrabajadores', name: 'FichasTrabajadores', component: FichasTrabajadores },
   { path: '/mantenedores/funcionescargos', name: 'FuncionesCargos', component: FuncionesCargos },

@@ -15,7 +15,7 @@
         //img(src="./assets/logo.png")
         //h1 {{ msg }}       
   router-view
-  //pro-footer
+  pro-footer
 </template>
 
 <script>
