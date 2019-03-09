@@ -23,8 +23,8 @@
                   small Más Opciones &nbsp;
                   v-icon(name="arrow-up",v-if="isVisibleOptionsBanner==true")
                   v-icon(name="arrow-down",v-if="isVisibleOptionsBanner==false")
-
-                button.button.is-small() Nueva Ficha
+                modal-ficha-trabajadores
+                button.button.is-small(@click.prevent="modalGestionarFichasTrabajadores()") Nueva Ficha
                 
                 
 
@@ -34,52 +34,6 @@
 
           .column.is-10.section
 
-            .columns
-              .column.is-6
-                div.box
-                  h2 Nueva Ficha de Ingreso
-                  .field
-                    .field
-                      label Rbd
-                      input.input.is-fullwidth(type='text', v-model='nueva_ficha.establecimiento_rbd')
-                    .field
-                      label Contrato
-                      input.input.is-fullwidth(type='text', v-model='nueva_ficha.establecimiento_nombre')
-                    .field
-                      label Tipo Contrato
-                      .select.is-fullwidth
-                        select(v-model='nueva_ficha.region_id')
-                          option(value='')
-                          option(value='General') General
-                          option(value='Sep') Sep
-                          option(value='Pie') Pie
-                    .field
-                      label Fecha Inicio
-                      input.input.is-fullwidth(type="date", v-model='nueva_ficha.establecimiento_direccion')
-                    .field
-                      label Cargo
-                      input.input.is-fullwidth(type='text', v-model='nueva_ficha.establecimiento_nombre')
-                    .field
-                      label Contrato Hrs Semanales
-                      input.input.is-fullwidth(type='text', v-model='nueva_ficha.establecimiento_nombre')
-                    .field
-                      label Sueldo Base
-                      input.input.is-fullwidth(type='text', v-model='nueva_ficha.establecimiento_nombre')
-                    .field
-                      label Horas Extra
-                      input.input.is-fullwidth(type='text', v-model='nueva_ficha.establecimiento_nombre')
-                    .field
-                      label Bono
-                      input.input.is-fullwidth(type='text', v-model='nueva_ficha.establecimiento_nombre')
-                          
-
-                  .field.is-grouped
-                    button.button.is-primary.is-small(
-                        @click.prevent="guardar_establecimiento()"
-                    ) Guardar Ficha
-
-              .column.is-6
-
             div.box
                h2 Fichas Trabajadores
                table
@@ -87,18 +41,43 @@
                      tr
                         th Acciones 
                         th Ficha ID
+                        th Rut
+                        th Dv
+                        th Genero
                         th Nombre
-                        th Descripción
+                        th Apellido Paterno
+                        th Apellido Materno
+                        th Fecha Nacimiento
+                        th Fecha Ingreso
+                        th Id Establecimiento
+                        th Id Cargo
+                        th Sueldo Base
+                        th Horas Semanales
+                        th Horas Extras
+                        th Bono
                   tbody
-                     tr(v-for="a in 5")
+                     tr(v-for="ft in fichas_trabajadores")
                         th 
                            .button.is-small.tooltip.is-light(data-tooltip="Opciones")
                               v-icon(name="cogs")
                            .button.is-small.tooltip.is-light(data-tooltip="Eliminar")
                               v-icon(name="times")
-                        td dato1
-                        td dato2
-                        td dato3
+
+                        td {{ ft.ficha_trabajador_id }}
+                        td {{ ft.ficha_rut }}
+                        td {{ ft.ficha_dv }}
+                        td {{ ft.ficha_genero }}
+                        td {{ ft.ficha_nombre }}
+                        td {{ ft.ficha_apellido_paterno }}
+                        td {{ ft.ficha_apellido_materno }}
+                        td {{ ft.ficha_fecha_nacimiento }}
+                        td {{ ft.ficha_fecha_ingreso }}
+                        td {{ ft.establecimiento_id }}
+                        td {{ ft.cargo_id }}
+                        td {{ ft.sueldo_base }}
+                        td {{ ft.horas_semanales }}
+                        td {{ ft.horas_extras }}
+                        td {{ ft.bono }}
 
 
 </template>
@@ -106,11 +85,16 @@
 <script>
 
 import AsideMenu from '@/components/layouts/Menus/AsideMenu.vue'
+import ModalFichaTrabajadores from "@/components/pages/Mantenedores/FichasTrabajadores/Modals/ModalFichaTrabajadores.vue"
+
+import { InvercolCoreFunctionsMixin } from '@/mixins/InvercolCoreFunctions.js'
+import { environmentConfig } from '@/services/environments/environment-config'
 
 export default {
-  mixins: [  ],
+  mixins: [ InvercolCoreFunctionsMixin ],
   components: {
     AsideMenu,
+    ModalFichaTrabajadores
   },
   created(){
     this.instanceTableWithLocalObjects()
@@ -118,13 +102,11 @@ export default {
   data() {
     return {
         /* Variables y Setup del Componente */
-        fichas:[], // lista de libros
+        fichas_trabajadores:[], // lista de libros
         localInstanceNameDetail:'Fichas', // nombre de la instancia local por la page que hace ref. a hoteles -> hotel o a $data[this.localInstanceName]
         isVisibleOptionsBanner:false,
         isLoading: false,
-        nueva_ficha: {
 
-        },
 
 
     }
@@ -133,15 +115,27 @@ export default {
   watch: {},
   methods: {
     instanceTableWithLocalObjects(){
+      this.obtenerFichasTrabajadores()
 
+    },
 
+    obtenerFichasTrabajadores: function () {
+      this.isLoading = true
+      this.$http.get(`${environmentConfig.invercolProd.apiUrl}/frontend/fichas_trabajadores`)
+        .then(response => { // success callback
+          if (response.status = 200) {
+            this.fichas_trabajadores = {}
+            this.fichas_trabajadores = response.body
+          }
+          this.isLoading = false
+      }, response => { /*// error callback //this.checkResponseHttpToAlert(response.status)*/ });
     },
 
 
 
-    modalNewBook: function () {
+    modalGestionarFichasTrabajadores: function () {
       console.log('si estoy llegando al modal')
-      //this.$modal.show('modal-new-book')
+      this.$modal.show("modal-ficha-trabajadores")
     }
   }
 

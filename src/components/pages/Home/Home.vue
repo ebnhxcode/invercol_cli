@@ -35,6 +35,7 @@
             aside-menu
 
           .column.is-10.section
+            h1 Lo principal de cada módulo
 
             .tile.is-ancestor
               .tile.is-vertical.is-8

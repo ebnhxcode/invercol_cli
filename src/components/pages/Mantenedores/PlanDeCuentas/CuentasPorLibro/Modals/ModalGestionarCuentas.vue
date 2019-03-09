@@ -3,7 +3,7 @@
     style="z-index:2000 !importantpadding-top: 20px"
     name="modal-gestionar-cuentas"
     :reset="true"
-    :width="'85%'"
+    :width="'70%'"
     :min-width="320"
     :height="'auto'"
     :min-height="600"
@@ -24,16 +24,16 @@
             .field
               .field
                 label Código
-                input.input.is-fullwidth(type='text', v-model='nueva_cuenta.cuenta_id')
+                input.input(type='text', v-model='nueva_cuenta.cuenta_id')
               .field
                 label Código Adicional
-                input.input.is-fullwidth(type='text', v-model='nueva_cuenta.cuenta_codigo')
+                input.input(type='text', v-model='nueva_cuenta.cuenta_codigo')
               .field
                 label Nombre
-                input.input.is-fullwidth(type='text', v-model='nueva_cuenta.cuenta_nombre')
+                input.input(type='text', v-model='nueva_cuenta.cuenta_nombre')
               .field
                 label Descripción
-                input.textarea.is-fullwidth(v-model='nueva_cuenta.cuenta_descripcion', rows="1")
+                input.textarea(v-model='nueva_cuenta.cuenta_descripcion', rows="1")
               .field
                 label Cuenta Titular
                   .select.is-fullwidth
@@ -71,6 +71,7 @@
                     option(v-for='l in libros', :value='l.libro_id') {{ l.libro_nombre }}
             .field.is-grouped
               button.button.is-primary.is-small(
+                @click.prevent="guardarNuevoLibroCuenta(nueva_cuenta_libro)"
               ) Guardar Asociacion
 </template>
 <script>
@@ -109,14 +110,14 @@ export default {
       formData.append(`cuenta_codigo`, nueva_cuenta.cuenta_codigo || "Null")
       formData.append(`cuenta_nombre`, nueva_cuenta.cuenta_nombre || "Null")
       formData.append(`cuenta_descripcion`,nueva_cuenta.cuenta_descripcion || "Null")
-      formData.append(`cuenta_titular`, nueva_cuenta.cuenta_titular || 1)
+      formData.append(`cuenta_titular`, nueva_cuenta.cuenta_titular || 1) 
       formData.append(`cuenta_dependencia_id`,nueva_cuenta.cuenta_dependencia_id || 0)
       this.$http.post(`${environmentConfig.invercolProd.apiUrl}/frontend/cuentas`,formData).then(response => {
         // success callback
         if (response.status == 200 || response.status == 201) {
           console.log(response)
           this.$parent.obtenerCuentas()
-          this.seleccionarFormatoNotificacion('success', 'create', true)
+          this.seleccionarFormatoNotificacion('success', 'create', true, {})
           this.limpiarNuevaCuenta()
         }
       },
@@ -125,7 +126,32 @@ export default {
       })
     },
 
-    guardarNuevoLibroCuenta: function() {},
+    guardarNuevoLibroCuenta: function(nueva_cuenta_libro) {
+      var formData = new FormData()
+      //Conforma objeto paramétrico para solicitud http
+      formData.append(`cuenta_id`, nueva_cuenta_libro.cuenta_id)
+      formData.append(`libro_id`, nueva_cuenta_libro.libro_id)
+      this.$http.post(`${environmentConfig.invercolProd.apiUrl}/frontend/libroscuentas`,formData).then(response => {
+        // success callback
+
+        if (response.body.status == 401) {
+          return this.seleccionarFormatoNotificacion('warn', 'create', true, {title:'Asociación existente',text:'La cuenta ya ha sido asociada a este libro'})
+        }
+
+        if (response.status == 200 || response.status == 201) {
+          console.log(response)
+          this.$parent.obtenerCuentas()
+          this.seleccionarFormatoNotificacion('success', 'create', true, {})
+          this.limpiarNuevaCuenta()
+        }
+
+      },
+      response => {
+        
+        return this.seleccionarFormatoNotificacion('error', 'create', true, {title:'Error Desconocido',text:'Error desconocido, contacte con soporte'})
+        // error callback
+      })
+    },
     limpiarNuevaCuenta: function() {
       this.nueva_cuenta = {
         cuenta_id: "",

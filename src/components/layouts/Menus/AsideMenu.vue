@@ -1,6 +1,6 @@
 <template lang="pug">
-  div(style="position: sticky;padding-top: 10px;top: 0;display: flex;")
-    aside.menu 
+  div(style="position: sticky;padding-top: 10px;top: 0;display: flex;max-height:500px;overflow-y: scroll;")
+    aside.menu
       p.menu-label
         | Home
       ul.menu-list
@@ -18,7 +18,7 @@
           |&nbsp;Fichas Trabajadores
         router-link(to="/mantenedores/funcionescargos", tag="a", exact) 
           v-icon(name="book-open")
-          |&nbsp;Funciónes / Cargos
+          |&nbsp;Funciones y Cargos
         router-link(to="/mantenedores/contratos", tag="a", exact) 
           v-icon(name="book-open")
           |&nbsp;Contratos

@@ -320,26 +320,26 @@ export const InvercolCoreFunctionsMixin = {
        * EXTRA FUNCTIONS -> TO INVERCOL
        */
    
-		seleccionarFormatoNotificacion: function (type, action, send=false) {
+		seleccionarFormatoNotificacion: function (type, action, send=false, textOptions={}) {
 			switch (action) {
 				case 'update':
 					if (send) {
-						this.mostrarNotificacion('global',type,'Actualizacion Exitosa','Registro Actualizado')
+						this.mostrarNotificacion('global',type,textOptions.title||'Actualizacion Exitosa',textOptions.text||'Registro Actualizado')
 					}
 					break;
 				case 'delete':
 					if (send) {
-						this.mostrarNotificacion('global',type,'Eliminación Exitosa','Registro Eliminado')
+						this.mostrarNotificacion('global',type,textOptions.title||'Eliminación Exitosa',textOptions.text||'Registro Eliminado')
 					}
 					break;
 				case 'create':
 					if (send) {
-						this.mostrarNotificacion('global',type,'Creación Exitosa','Registro Creado')
+						this.mostrarNotificacion('global',type,textOptions.title||'Creación Exitosa',textOptions.text||'Registro Creado')
 					}
 					break;
 				case 'show':
 					if (send) {
-						this.mostrarNotificacion('global',type,'Obtención Exitosa','Registro Cargado')
+						this.mostrarNotificacion('global',type,textOptions.title||'Obtención Exitosa',textOptions.text||'Registro Cargado')
 					}
 					break;
 			}

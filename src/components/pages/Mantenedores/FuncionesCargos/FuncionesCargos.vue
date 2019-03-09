@@ -24,7 +24,8 @@
                   v-icon(name="arrow-up",v-if="isVisibleOptionsBanner==true")
                   v-icon(name="arrow-down",v-if="isVisibleOptionsBanner==false")
 
-                button.button.is-small() Nueva Función
+                modal-gestionar-cargos
+                button.button.is-small(@click.prevent="modalGestionarCargos()") Nueva Función
                 
                 
 
@@ -34,35 +35,7 @@
 
           .column.is-10.section
 
-            .columns
-              .column.is-6
-                div.box
-                  h2 Nueva Función
-                  .field
-                    .field
-                      label Campo 1
-                      input.input.is-fullwidth(type='text', v-model='nueva_funcion.campo_1')
-                    .field
-                      label Campo 2
-                      input.input.is-fullwidth(type='text', v-model='nueva_funcion.campo_2')
-                    .field
-                      label Campo 3
-                      .select.is-fullwidth
-                        select(v-model='nueva_funcion.campo_3')
-                          option(value='')
-                          option(value='Tipo1') Tipo 1
-                          option(value='Tipo2') Tipo 2
-                          option(value='Tipo3') Tipo 3
-                    .field
-                      label Campo 4
-                      input.input.is-fullwidth(type="date", v-model='nueva_funcion.campo_4')
 
-                  .field.is-grouped
-                    button.button.is-primary.is-small(
-                        @click.prevent="guardar_funcion()"
-                    ) Guardar Función
-
-              .column.is-6
 
             div.box
                h2 Funciones
@@ -70,19 +43,23 @@
                   thead
                      tr
                         th Acciones 
-                        th Ficha ID
+                        th Cargo ID
                         th Nombre
+                        th Código
                         th Descripción
+                        th Tipo Cargo
                   tbody
-                     tr(v-for="a in 5")
+                     tr(v-for="c in cargos")
                         th 
                            .button.is-small.tooltip.is-light(data-tooltip="Opciones")
                               v-icon(name="cogs")
                            .button.is-small.tooltip.is-light(data-tooltip="Eliminar")
                               v-icon(name="times")
-                        td dato1
-                        td dato2
-                        td dato3
+                        td {{ c.cargo_id }}
+                        td {{ c.cargo_nombre }}
+                        td {{ c.cargo_codigo }}
+                        td {{ c.cargo_descripcion }}
+                        td {{ c.tipo_cargo_id == 1 ? 'RBD' : 'AC' }}
 
 
 </template>
@@ -90,11 +67,16 @@
 <script>
 
 import AsideMenu from '@/components/layouts/Menus/AsideMenu.vue'
+import ModalGestionarCargos from "@/components/pages/Mantenedores/FuncionesCargos/Modals/ModalGestionarCargos.vue"
+
+import { InvercolCoreFunctionsMixin } from '@/mixins/InvercolCoreFunctions.js'
+import { environmentConfig } from '@/services/environments/environment-config'
 
 export default {
-  mixins: [  ],
+  mixins: [ InvercolCoreFunctionsMixin ],
   components: {
     AsideMenu,
+    ModalGestionarCargos
   },
   created(){
     this.instanceTableWithLocalObjects()
@@ -102,13 +84,11 @@ export default {
   data() {
     return {
         /* Variables y Setup del Componente */
-        fichas:[], // lista de libros
+        cargos:[], // lista de libros
         localInstanceNameDetail:'Funciones', // nombre de la instancia local por la page que hace ref. a hoteles -> hotel o a $data[this.localInstanceName]
         isVisibleOptionsBanner:false,
         isLoading: false,
-        nueva_funcion: {
 
-        },
 
 
     }
@@ -117,17 +97,29 @@ export default {
   watch: {},
   methods: {
     instanceTableWithLocalObjects(){
-
+      this.obtenerCargos()
 
     },
+    obtenerCargos: function () {
+      this.isLoading = true
+      this.$http.get(`${environmentConfig.invercolProd.apiUrl}/frontend/cargos`)
+        .then(response => { // success callback
+          if (response.status = 200) {
+            this.cargos = {}
+            this.cargos = response.body
+          }
+          this.isLoading = false
+      }, response => { /*// error callback //this.checkResponseHttpToAlert(response.status)*/ });
+    },
+
 
     guardar_funcion: function () {},
 
 
 
-    modalNewBook: function () {
+    modalGestionarCargos: function () {
       console.log('si estoy llegando al modal')
-      //this.$modal.show('modal-new-book')
+      this.$modal.show("modal-gestionar-cargos")
     }
   }
 
