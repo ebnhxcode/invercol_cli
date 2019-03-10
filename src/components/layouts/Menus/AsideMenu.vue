@@ -1,5 +1,6 @@
 <template lang="pug">
-  div(style="position: sticky;padding-top: 10px;top: 0;display: flex;max-height:500px;overflow-y: scroll;")
+  div(style="position: sticky;padding-top: 10px;top: 0;display: flex;overflow-y: scroll;")
+    //max-height:500px;
     aside.menu
       p.menu-label
         | Home
