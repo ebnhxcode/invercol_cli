@@ -4,7 +4,7 @@
 			.hero-head.header.nav.container.nav-left.nav-item.nav-right.nav-menu.content.has-text-centered
 			.hero-body
 				//.has-text-centered
-				h5.title Más opciones · Módulo de Cuentas
+				h5.title Módulo de Cuentas
 				h6 Invercol IO
 		.hero.is-light.hero-head
 				//.content
@@ -27,106 +27,36 @@
 					.column.is-2(style="padding-right: 0px")
 						aside-menu
 					.column.is-10.content
-						//h2 Cuentas
 						.box(style="position: sticky;padding-top: 10px;top: 0;display: flex;z-index:10; !important;margin-bottom: 0rem;")
 							.tabs.is-boxed
-								//.is-boxed.is-centered
 								ul(style="margin:0px;")
 									li
-									li(:class="[tabActive==='availabilityDetail' ? 'is-active' : '']", @click.prevent="tabActive='availabilityDetail'")
+									li(:class="[tabActive==='tab1' ? 'is-active' : '']", @click.prevent="tabActive='tab1'")
 										a Lista de Cuentas
-									li(:class="[tabActive==='transactions' ? 'is-active' : '']", @click.prevent="tabActive='transactions'")
+									li(:class="[tabActive==='tab2' ? 'is-active' : '']", @click.prevent="tabActive='tab2'")
 										a Crear Cuenta
-									li(:class="[tabActive==='hotelInfo' ? 'is-active' : '']", @click.prevent="tabActive='hotelInfo'")
+									li(:class="[tabActive==='tab3' ? 'is-active' : '']", @click.prevent="tabActive='tab3'")
 										a Asociar Cuenta
-									
+
 						.box(v-show="tabActive != null")
-							div(v-show="tabActive==='availabilityDetail'")
+							div(v-show="tabActive==='tab1'")
 								.is-narrow(style="overflow-x: scroll;overflow-y: hidden;font-size: 1rem;display:block;max-width: 100%;user-select:text !important;")
 									table
 										thead
 											tr
 												th Acciones 
-												th Cuenta ID
-												th Cuenta Código
-												th Cuenta Nombre
-												th Cuenta Descripción
-												th Cuenta Titular
-												th Cuenta Dependencia
-												th Libros
-												th Detalle de Libros
+												th(v-for='th in modelInstance') {{ th.label }}
 										tbody
 											tr(v-for="c in cuentas")
 												td 
-													.buttons.has-addons.is-rounded
-														.button.is-small.tooltip.is-light(data-tooltip="Opciones")
+													.buttons.has-addons
+														.button.is-small.tooltip.is-link(data-tooltip="Opciones")
 															v-icon(name="cogs")
-														.button.is-small.tooltip.is-light(
-															data-tooltip="Editar", 
-															@click.prevent="editarCuenta(c.cuenta_id)",
-															v-show="id_cuenta_edicion == null || id_cuenta_edicion != c.cuenta_id"
-														)
-															v-icon(name="edit")
-														.button.is-small.tooltip.is-secondary(
-															data-tooltip="Deshacer", 
-															@click.prevent="id_cuenta_edicion=null",
-															v-show="id_cuenta_edicion != null && id_cuenta_edicion == c.cuenta_id"
-														) 
-															v-icon(name="times")
-														.button.is-small.tooltip.is-primary(
-															data-tooltip="Actualizar", 
-															@click.prevent="actualizarCuenta(c)",
-															v-show="id_cuenta_edicion != null && id_cuenta_edicion == c.cuenta_id"
-														)
-															v-icon(name="check")
-														.button.is-small.tooltip.is-danger(data-tooltip="Eliminar", @click.prevent="eliminarCuenta(c.cuenta_id)",v-if="id_cuenta_edicion == null")
-															v-icon(name="times")
-
-												td(v-if="id_cuenta_edicion!=c.cuenta_id") {{ c.cuenta_id }}
-												td(v-else)
-													input.input.is-fullwidth(type='text', v-model='c.cuenta_id')
-
-												td(v-if="id_cuenta_edicion!=c.cuenta_id") {{ c.cuenta_codigo || 'Sin codigo adicional incorporado' }}
-												td(v-else)
-													input.input.is-fullwidth(type='text', v-model='c.cuenta_codigo')
-
-												td(v-if="id_cuenta_edicion!=c.cuenta_id") {{ c.cuenta_nombre }}
-												td(v-else)
-													input.input.is-fullwidth(type='text', v-model='c.cuenta_nombre')
-
-												td(v-if="id_cuenta_edicion!=c.cuenta_id") {{ c.cuenta_descripcion }}
-												td(v-else)
-													input.textarea.is-fullwidth(v-model='c.cuenta_descripcion', rows='1')
-
-												td(v-if="id_cuenta_edicion!=c.cuenta_id") {{ c.cuenta_titular == 0 ? 'Cuenta Titular' : 'Normal' }}
-												td(v-else)
-													.select.is-fullwidth
-														select(v-model='c.cuenta_dependencia_id')
-															option(value='')
-															option(value='0') Si
-															option(value='1') No
-
-												td(v-if="id_cuenta_edicion!=c.cuenta_id") {{ c.cuenta_dependencia_id ? c.cuenta_dependencia.cuenta_dependencia_nombre : 'Sin dependencia' }}
-												td(v-else)
-													.select.is-fullwidth
-														select(v-model='c.cuenta_dependencia_id')
-															option(value='')
-															option(v-for="d in cuenta_dependencias", :value='d.cuenta_dependencia_id') {{ d.cuenta_dependencia_nombre }}
-
-												td {{ c.libros_cuentas ? c.libros_cuentas.length : 0 }}
-												td 
-													ul(v-if="c.libros_cuentas")
-														li(v-for="lc in c.libros_cuentas", v-if="lc.libro")
-															div
-																.button.is-small.tooltip.is-light(data-tooltip="Desasociar", style="float:right;", @click.prevent="eliminarAsociacionCuentaLibro(lc.libro_cuenta_id)")
-																	v-icon(name="times")
-																p {{ lc.libro.libro_nombre }}
-													ul(v-if="!c.libros_cuentas")
-														li Aún sin libros para asociar
+												td(v-for='td in modelInstance') {{ c[td.field] }}
 														
-							div(v-show="tabActive==='transactions'")
+							div(v-show="tabActive==='tab2'")
 								| Crear Cuenta
-							div(v-show="tabActive==='hotelInfo'")
+							div(v-show="tabActive==='tab3'")
 								| Asociar Cuenta
 
 
@@ -138,6 +68,8 @@
 <script>
 import AsideMenu from "@/components/layouts/Menus/AsideMenu.vue"
 import ModalGestionarCuentas from "@/components/pages/Mantenedores/PlanDeCuentas/CuentasPorLibro/Modals/ModalGestionarCuentas.vue"
+
+import { Cuenta } from '@/models/Cuenta'
 
 import { InvercolCoreFunctionsMixin } from '@/mixins/InvercolCoreFunctions.js'
 import { environmentConfig } from "@/services/environments/environment-config"
@@ -159,7 +91,10 @@ export default {
 			isVisibleOptionsBanner: false,
 			isLoading: false,
 			apiUrl: environmentConfig.invercolProd.apiUrl,
-			tabActive:null,
+			tabActive:'tab1', // default
+			modelInstance: Cuenta,
+
+
 
 			/* Variables y Setup del Componente */
 			cuentas: [],
