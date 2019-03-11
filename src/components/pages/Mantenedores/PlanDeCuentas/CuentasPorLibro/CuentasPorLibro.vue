@@ -23,6 +23,7 @@
 
 								modal-gestionar-cuentas(:cuentas="cuentas",:libros="libros",:cuenta_dependencias="cuenta_dependencias")
 								button.button.is-small(@click.prevent="modalGestionarCuentas()") Gestionar Cuentas
+								
 				.columns.section(style="padding-top: 0px;")
 					.column.is-2(style="padding-right: 0px")
 						aside-menu
@@ -40,19 +41,116 @@
 
 						.box(v-show="tabActive != null")
 							div(v-show="tabActive==='tab1'")
-								.is-narrow(style="overflow-x: scroll;overflow-y: hidden;font-size: 1rem;display:block;max-width: 100%;user-select:text !important;")
+
+								// Cabecera de los campos de la tabla
+								table-columns(:modelInstance="modelInstance")
+
+
+								.is-narrow(v-show="!isLoading",style="overflow-x: scroll;overflow-y: hidden;font-size: 1rem;display:block;max-width: 100%;user-select:text !important;")
+									//h4 Tabla
 									table
 										thead
+											tr.is-text-centered(v-if="groupedMarkedElements.length > 0")
+												td(:colspan="filterBy(modelInstance, true).length+1") 
+													p(v-show="groupedMarkedElements.length > 0") Tabla Comparativa de elementos agrupados 
+														v-icon(name="thumbtack")
 											tr
 												th Acciones 
-												th(v-for='th in modelInstance') {{ th.label }}
+												th(v-for='m in modelInstance', v-if="m.isVisible") {{ m.label }}
+
+											tr.is-text-centered(v-for="elem in groupedMarkedElements") 
+												td
+													.button.is-small.tooltip.is-light(data-tooltip="Opciones",@click.prevent="")
+														v-icon(name="cogs")
+													.button.is-small.is-danger.tooltip(data-tooltip="Quitar", @click.prevent="removeMarkedElement(elem)") ❌
+
+												td(
+													v-for="m in $data['modelInstance']", 
+													v-if="m.isVisible"
+												) {{ elem[m.field] | checkRelationFilter(m) }}
+											tr
+
+										thead
+
+											tr.is-text-centered(v-show="localInstanceName.length>0")
+												td(:colspan="filterBy(modelInstance, true).length+1") 
+													p Filtros y ordenamiento de elementos seleccionados en el tablero
+											tr
+												th
+													.tooltip(data-tooltip="Acciones")
+														span.button.is-small.is-light
+															p Acciones
+												th(v-for="m in modelInstance", v-if="m.isVisible")
+													.field.has-addons
+														.control
+															.tooltip(data-tooltip="Ordenar la lista")
+																span.button.is-small.is-light(
+																	@click.prevent="switchListOrder(m)"
+																) 
+																	span {{ m.label }}
+																	span &nbsp;
+																	v-icon(name="sort")
+																
+															
+														.control(v-show="m.isFilterActive == false")
+															.tooltip(data-tooltip="Buscar dentro de la columna")
+																span.button.is-small.is-light(@click.prevent="m.isFilterActive = !m.isFilterActive")
+																	v-icon(name="search", 
+																		v-show="m.isVisible==true"
+																	)
+
+														.control(v-show="m.isFilterActive == true").is-fullwidth
+															.tooltip( data-tooltip="Nuevo tag" )
+																input.input.is-small.is-light(
+																	style="min-width:150px;",
+																	type="text", 
+																	v-model="m.searchTextInField",
+																	placeholder="filtrar aquí",
+																	v-show="$data[localInstanceName].length > 0",
+																	@change.prevent="filterInTable()"
+																)
+														.control(v-show="m.isFilterActive == true")
+															a.button.is-small.is-light(
+																@click="m.isFilterActive=!m.isFilterActive", 
+																:disabled="$data[localInstanceName].length==0?true:false" 
+															) &times;
+											tr
+												td
+													.field.has-addons
+														.control
+															span Tags&nbsp;
+																v-icon(name="hand-point-right")
+
+												td(v-for="m in modelInstance", v-if="m.isVisible")
+													.tags
+														span.tag(
+															v-if="m.arrayTextsInSearch.length > 0",
+															v-for="tag in m.arrayTextsInSearch",
+															:class="tag.isRestrictiveFilter==true?'is-primary':'is-light'"
+														)
+															.tooltip(data-tooltip="Restringir búsqueda")
+																a(@click.prevent="filterInTableValidatingRestrictions(tag)") {{ tag.text }} 
+																button.delete.is-rounded.is-small(@click.prevent="deteleTagInTable(m.arrayTextsInSearch, tag.text)")
+
 										tbody
-											tr(v-for="c in cuentas")
+											tr.is-text-centered(v-show="$data[localInstanceName].length==0")
+												td(:colspan="filterBy($data[modelInstance], true).length") 
+													p(style="float:right;") Click Aqui para recargar
+														a.button.is-light(@click="restartTable()") &#8635;
+													p No hay datos a mostrar
+											tr(v-for="elem in filterBy($data[localInstanceName], $data['textPrincipalFilter'])")
 												td 
 													.buttons.has-addons
 														.button.is-small.tooltip.is-link(data-tooltip="Opciones")
 															v-icon(name="cogs")
-												td(v-for='td in modelInstance') {{ c[td.field] }}
+														.button.is-small.tooltip(data-tooltip="Marcar",
+															@click.prevent="groupMarkedElement(elem)", 
+															:class="$data['groupedMarkedElements'].indexOf(elem) === -1 ?'is-light':'is-info'"
+														)
+															v-icon(name="thumbtack")
+												td(v-for='m in modelInstance', v-if="m.isVisible") {{ elem[m.field] | checkRelationFilter(m) }}
+
+								loader(v-show="isLoading")
 														
 							div(v-show="tabActive==='tab2'")
 								| Crear Cuenta
@@ -66,8 +164,13 @@
 				
 </template>
 <script>
+
 import AsideMenu from "@/components/layouts/Menus/AsideMenu.vue"
+import Loader from '@/components/shared/Loader.vue'
+import Spinner from '@/components/shared/Spinner.vue';
 import ModalGestionarCuentas from "@/components/pages/Mantenedores/PlanDeCuentas/CuentasPorLibro/Modals/ModalGestionarCuentas.vue"
+
+import TableColumns from '@/components/shared/TableColumns.vue'
 
 import { Cuenta } from '@/models/Cuenta'
 
@@ -78,7 +181,10 @@ export default {
 	mixins: [InvercolCoreFunctionsMixin],
 	components: {
 		AsideMenu,
-		ModalGestionarCuentas
+		Spinner,
+		Loader,
+		ModalGestionarCuentas,
+		TableColumns
 	},
 	created() {
 		this.instanceTableWithLocalObjects()
@@ -86,22 +192,40 @@ export default {
 	},
 	data() {
 		return {
-			/* Setup del Framework */
+			/* Setup del Framework · Todos son requeridos */
+
+			isVisibleOptionsBanner: false, // variable de estado que indica si se visualiza o no el banner adicional superior
+			isLoading: false, // variable de estado que indica si algo dentro de la pagina está cargando
+			isLoadingModal:false, //boolean para validar spinners y loaders de despliegue de los modals
+			isPrincipalTextFilterEnabled:false, // v-model para filtrar sobre los filtros	
+			textPrincipalFilter:"", // filtro global de la tabla
+			excelJsonData:[], // array para procesamiento de datos a exportar en excel, se completa en un watch -> hoteles
+			groupedMarkedElements: [], // Array con objetos marcados desde la grilla
+			
+			// Variables de paginación
+			pagination: { 'per_page':null }, // objeto requerido para paginacion
+			numberItemsToPaginate: [ 250,500,750,1000,1500,2000,3000,4000,5000 ],
+
+			// Datos generales y de Acceso a contenidos
 			localInstanceNameDetail: "Cuentas", // nombre de la instancia local por la page que hace ref. a hoteles -> hotel o a $data[this.localInstanceName]
-			isVisibleOptionsBanner: false,
-			isLoading: false,
-			apiUrl: environmentConfig.invercolProd.apiUrl,
-			tabActive:'tab1', // default
-			modelInstance: Cuenta,
+			localInstanceName: "cuentas", // nombre de la instancia local por la page que hace ref. a hoteles -> hotel o a $data[this.localInstanceName]
+			localInstanceNameListObjects: "cuentas", // nombre de la instancia local por la page que hace ref. a hoteles -> hotel o a $data[this.localInstanceName]
+			modelInstance: Cuenta, // modelo de la clase o recurso principal de la vista mantenedor
+			apiUrl: environmentConfig.invercolProd.apiUrl, // url del backend
 
+			//Configuraciones
+			orderList: 'asc', // orden por defecto en la tabla
+			tabActive:'tab1', // default tab que se muestra al inicio de cada vista
+			object_id: 'cuenta_id',
 
+			/* Fin Setup del Framework */
 
-			/* Variables y Setup del Componente */
+			/* Variables del Componente */
 			cuentas: [],
+			cuentasStorage: [], // auxiliar
 			libros: [],
 			cuenta_dependencias: [],
 
-			id_cuenta_edicion: null
 		}
 	},
 
@@ -148,7 +272,9 @@ export default {
 				// success callback
 				if ((response.status = 200)) {
 					this.cuentas = {}
+					this.cuentasStorage = {}
 					this.cuentas = response.body
+					this.cuentasStorage = response.body
 				}
 				this.isLoading = false
 			},

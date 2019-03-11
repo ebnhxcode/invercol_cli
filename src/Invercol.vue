@@ -1,19 +1,6 @@
 <template lang="pug">
 #invercol
   pro-header
-    //section.section
-    nav.nav.has-shadow
-
-      .container
-        //pro-loader(v-if="isLoading")
-        //pro-spinner(v-if="isLoading")
-
-    .container
-      .columns
-        .column
-
-        //img(src="./assets/logo.png")
-        //h1 {{ msg }}       
   router-view
   pro-footer
 </template>
@@ -37,24 +24,6 @@ export default {
   },
   data() {
     return {
-      msg: "Hola mundo",
-      searchQuery: "",
-      showChildComponent: false,
-      isLoading: true,
-      isAnActiveComponentTab: true,
-      tourOperadores: [
-        { nombre: 'carlson' },
-        { nombre: 'cocha' },
-        { nombre: 'distantis' },
-        { nombre: 'euroandino' },
-        { nombre: 'mundotour' },
-        { nombre: 'otas' },
-        { nombre: 'otsi' },
-        { nombre: 'tourmundial' },
-        { nombre: 'touravion_dev' },
-        { nombre: 'travelclub' },
-        { nombre: 'veci' }
-      ]
     }
   }
 }
@@ -62,5 +31,4 @@ export default {
 
 <style lang="scss">
   @import "@/assets/scss/main.scss";
-  //@import "@/assets/scss/font-awesome.scss";
 </style>

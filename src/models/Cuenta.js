@@ -38,6 +38,7 @@ export const Cuenta = {
     isFilterActive: false,    
     isRestrictiveFilter:false,
   },
+  /*
   field5:{
     label:'Cuenta Titular',
     field:'cuenta_titular',
@@ -48,6 +49,7 @@ export const Cuenta = {
     isFilterActive: false,    
     isRestrictiveFilter:false,
   },
+  */
   field6:{
     label:'Dependencia',
     field:'cuenta_dependencia', //la relacion en el modelo del backend en laravel

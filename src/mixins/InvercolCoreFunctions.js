@@ -55,6 +55,10 @@ export const InvercolCoreFunctionsMixin = {
          })
          this.filterInTable()
       },
+
+      eliminarRecurso: function () {
+        
+      },
    
        /*
        * Recarga los datos desde local storage y vuelve a procesar solo los filtros que estan activos y que contienen referencias sobre el campo
@@ -159,6 +163,19 @@ export const InvercolCoreFunctionsMixin = {
             }
             return self.excelJsonData.push(obj)
          })
+      },
+
+      /* objInstance lo envia la grilla · Requerido en este componente */
+      groupMarkedElement: function (objInstance) {
+        if (this.groupedMarkedElements.indexOf(objInstance) === -1) {
+          this.groupedMarkedElements.push(objInstance)  
+        } else {
+          this.removeMarkedElement(objInstance)
+        }
+      },
+
+      removeMarkedElement: function (elem) {
+        this.groupedMarkedElements.splice(this.groupedMarkedElements.indexOf(elem), 1)
       },
 
       instanceTableWithLocalObjects(operator){

@@ -1,7 +1,7 @@
 <template lang="pug">
-  div(style="position: sticky;padding-top: 10px;top: 0;display: flex;overflow-y: scroll;")
-    //max-height:500px;
-    aside.menu
+  div.box(style="max-height:650px;position:sticky;padding-top:10px;top: 0;display:flex;overflow-y:scroll;")
+    //
+    aside.menu.is-small
       p.menu-label
         | Home
       ul.menu-list
