@@ -4,7 +4,7 @@
 			.hero-head.header.nav.container.nav-left.nav-item.nav-right.nav-menu.content.has-text-centered
 			.hero-body
 				//.has-text-centered
-				h5.title Módulo de Cuentas
+				h5.title {{ moduleName }}
 				h6 Invercol IO
 		.hero.is-light.hero-head
 				//.content
@@ -21,14 +21,14 @@
 									v-icon(name="arrow-up",v-if="isVisibleOptionsBanner==true")
 									v-icon(name="arrow-down",v-if="isVisibleOptionsBanner==false")
 
-								modal-gestionar-cuentas(:cuentas="cuentas",:libros="libros",:cuenta_dependencias="cuenta_dependencias")
-								button.button.is-small(@click.prevent="modalGestionarCuentas()") Gestionar Cuentas
+								//modal-gestionar-cuentas(:cuentas="cuentas",:libros="libros",:cuenta_dependencias="cuenta_dependencias")
+								//button.button.is-small(@click.prevent="modalGestionarCuentas()") Gestionar Cuentas
 								
 				.columns.section(style="padding-top: 0px;")
 					.column.is-2(style="padding-right: 0px")
 						aside-menu
 					.column.is-10.content
-						.box(style="position: sticky;padding-top: 10px;top: 0;display: flex;z-index:10; !important;margin-bottom: 0rem;")
+						.box(style="position: sticky;padding-top: 10px;padding-bottom: 0.3px;top: 0;display: flex;z-index:10;margin-bottom: -0.5rem;")
 							.tabs.is-boxed
 								ul(style="margin:0px;")
 									li
@@ -42,113 +42,22 @@
 						.box(v-show="tabActive != null")
 							div(v-show="tabActive==='tab1'")
 
+
 								// Cabecera de los campos de la tabla
 								table-columns(:modelInstance="modelInstance")
 
-
-								.is-narrow(v-show="!isLoading",style="overflow-x: scroll;overflow-y: hidden;font-size: 1rem;display:block;max-width: 100%;user-select:text !important;")
-									//h4 Tabla
-									table
-										thead
-											tr.is-text-centered(v-if="groupedMarkedElements.length > 0")
-												td(:colspan="filterBy(modelInstance, true).length+1") 
-													p(v-show="groupedMarkedElements.length > 0") Tabla Comparativa de elementos agrupados 
-														v-icon(name="thumbtack")
-											tr
-												th Acciones 
-												th(v-for='m in modelInstance', v-if="m.isVisible") {{ m.label }}
-
-											tr.is-text-centered(v-for="elem in groupedMarkedElements") 
-												td
-													.button.is-small.tooltip.is-light(data-tooltip="Opciones",@click.prevent="")
-														v-icon(name="cogs")
-													.button.is-small.is-danger.tooltip(data-tooltip="Quitar", @click.prevent="removeMarkedElement(elem)") ❌
-
-												td(
-													v-for="m in $data['modelInstance']", 
-													v-if="m.isVisible"
-												) {{ elem[m.field] | checkRelationFilter(m) }}
-											tr
-
-										thead
-
-											tr.is-text-centered(v-show="localInstanceName.length>0")
-												td(:colspan="filterBy(modelInstance, true).length+1") 
-													p Filtros y ordenamiento de elementos seleccionados en el tablero
-											tr
-												th
-													.tooltip(data-tooltip="Acciones")
-														span.button.is-small.is-light
-															p Acciones
-												th(v-for="m in modelInstance", v-if="m.isVisible")
-													.field.has-addons
-														.control
-															.tooltip(data-tooltip="Ordenar la lista")
-																span.button.is-small.is-light(
-																	@click.prevent="switchListOrder(m)"
-																) 
-																	span {{ m.label }}
-																	span &nbsp;
-																	v-icon(name="sort")
-																
-															
-														.control(v-show="m.isFilterActive == false")
-															.tooltip(data-tooltip="Buscar dentro de la columna")
-																span.button.is-small.is-light(@click.prevent="m.isFilterActive = !m.isFilterActive")
-																	v-icon(name="search", 
-																		v-show="m.isVisible==true"
-																	)
-
-														.control(v-show="m.isFilterActive == true").is-fullwidth
-															.tooltip( data-tooltip="Nuevo tag" )
-																input.input.is-small.is-light(
-																	style="min-width:150px;",
-																	type="text", 
-																	v-model="m.searchTextInField",
-																	placeholder="filtrar aquí",
-																	v-show="$data[localInstanceName].length > 0",
-																	@change.prevent="filterInTable()"
-																)
-														.control(v-show="m.isFilterActive == true")
-															a.button.is-small.is-light(
-																@click="m.isFilterActive=!m.isFilterActive", 
-																:disabled="$data[localInstanceName].length==0?true:false" 
-															) &times;
-											tr
-												td
-													.field.has-addons
-														.control
-															span Tags&nbsp;
-																v-icon(name="hand-point-right")
-
-												td(v-for="m in modelInstance", v-if="m.isVisible")
-													.tags
-														span.tag(
-															v-if="m.arrayTextsInSearch.length > 0",
-															v-for="tag in m.arrayTextsInSearch",
-															:class="tag.isRestrictiveFilter==true?'is-primary':'is-light'"
-														)
-															.tooltip(data-tooltip="Restringir búsqueda")
-																a(@click.prevent="filterInTableValidatingRestrictions(tag)") {{ tag.text }} 
-																button.delete.is-rounded.is-small(@click.prevent="deteleTagInTable(m.arrayTextsInSearch, tag.text)")
-
-										tbody
-											tr.is-text-centered(v-show="$data[localInstanceName].length==0")
-												td(:colspan="filterBy($data[modelInstance], true).length") 
-													p(style="float:right;") Click Aqui para recargar
-														a.button.is-light(@click="restartTable()") &#8635;
-													p No hay datos a mostrar
-											tr(v-for="elem in filterBy($data[localInstanceName], $data['textPrincipalFilter'])")
-												td 
-													.buttons.has-addons
-														.button.is-small.tooltip.is-link(data-tooltip="Opciones")
-															v-icon(name="cogs")
-														.button.is-small.tooltip(data-tooltip="Marcar",
-															@click.prevent="groupMarkedElement(elem)", 
-															:class="$data['groupedMarkedElements'].indexOf(elem) === -1 ?'is-light':'is-info'"
-														)
-															v-icon(name="thumbtack")
-												td(v-for='m in modelInstance', v-if="m.isVisible") {{ elem[m.field] | checkRelationFilter(m) }}
+								toolbar-for-table(
+									v-show="!isLoading", 
+									:localInstanceName="localInstanceName",
+									:numberItemsToPaginate="numberItemsToPaginate",
+									:pagination.sync="pagination",
+									:localInstanceObjects.sync="cuentas",
+									:textPrincipalFilter.sync="textPrincipalFilter",
+									:isPrincipalTextFilterEnabled.sync="isPrincipalTextFilterEnabled",
+								)
+								table-pro(
+									v-show="!isLoading"
+								)
 
 								loader(v-show="isLoading")
 														
@@ -171,6 +80,8 @@ import Spinner from '@/components/shared/Spinner.vue';
 import ModalGestionarCuentas from "@/components/pages/Mantenedores/PlanDeCuentas/CuentasPorLibro/Modals/ModalGestionarCuentas.vue"
 
 import TableColumns from '@/components/shared/TableColumns.vue'
+import TablePro from '@/components/shared/TablePro.vue'
+import ToolbarForTable from '@/components/shared/ToolbarForTable.vue'
 
 import { Cuenta } from '@/models/Cuenta'
 
@@ -184,7 +95,9 @@ export default {
 		Spinner,
 		Loader,
 		ModalGestionarCuentas,
-		TableColumns
+		TableColumns,
+		ToolbarForTable,
+		TablePro,
 	},
 	created() {
 		this.instanceTableWithLocalObjects()
@@ -204,14 +117,16 @@ export default {
 			
 			// Variables de paginación
 			pagination: { 'per_page':null }, // objeto requerido para paginacion
-			numberItemsToPaginate: [ 250,500,750,1000,1500,2000,3000,4000,5000 ],
+			numberItemsToPaginate: [ 5,10,15,20,30,40,50,100 ],
 
 			// Datos generales y de Acceso a contenidos
+			moduleName: "Módulo de Cuentas", // nombre de la instancia local por la page que hace ref. a hoteles -> hotel o a $data[this.localInstanceName]
 			localInstanceNameDetail: "Cuentas", // nombre de la instancia local por la page que hace ref. a hoteles -> hotel o a $data[this.localInstanceName]
 			localInstanceName: "cuentas", // nombre de la instancia local por la page que hace ref. a hoteles -> hotel o a $data[this.localInstanceName]
 			localInstanceNameListObjects: "cuentas", // nombre de la instancia local por la page que hace ref. a hoteles -> hotel o a $data[this.localInstanceName]
 			modelInstance: Cuenta, // modelo de la clase o recurso principal de la vista mantenedor
 			apiUrl: environmentConfig.invercolProd.apiUrl, // url del backend
+			environmentConfig: environmentConfig, // config local
 
 			//Configuraciones
 			orderList: 'asc', // orden por defecto en la tabla
@@ -273,8 +188,8 @@ export default {
 				if ((response.status = 200)) {
 					this.cuentas = {}
 					this.cuentasStorage = {}
-					this.cuentas = response.body
-					this.cuentasStorage = response.body
+					this.cuentas = response.body.cuentas.data
+					this.cuentasStorage = response.body.cuentas.data
 				}
 				this.isLoading = false
 			},
@@ -344,10 +259,40 @@ export default {
 </script>
 <style>
 #tab-content p {
-   display: none;
+	 display: none;
 }
 
 #tab-content p.is-active {
-   display: block;
+	 display: block;
+}
+.box {
+	overflow-x: auto;
+	overflow-y: hidden;
+
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;  
+	-moz-user-select: none;   
+	-ms-user-select: none;     
+	user-select: none; 
+}
+
+.wmd-view-topscroll, .wmd-view {
+		overflow-x: scroll;
+		overflow-y: hidden;
+		width: 300px;
+		border: none 0px RED;
+}
+
+.wmd-view-topscroll { height: 20px; }
+.wmd-view { height: 200px; }
+.scroll-div1 { 
+		width: 1000px; 
+		overflow-x: scroll;
+		overflow-y: hidden;
+		height:20px;
+}
+.scroll-div2 { 
+		width: 1000px; 
+		height:20px;
 }
 </style>

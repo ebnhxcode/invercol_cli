@@ -232,27 +232,35 @@ export const InvercolCoreFunctionsMixin = {
 
       navigate (page) {
          this.isLoading = true
-         this.$http.get(`${this.environmentConfig.distantisPreprod.apiUrl}/${this.operatorName}/${this.localInstanceName}?page=` + page + '&per_page=' + this.pagination.per_page).then(response => {
+         this.$http.get(`${this.apiUrl}/frontend/${this.localInstanceName}?page=` + page + '&per_page=' + this.pagination.per_page).then(response => {
             if (response.status == 200) {
             this.$data[this.localInstanceName] = response.body[this.localInstanceName]['data']
             this.$data[`${this.localInstanceName}Storage`] = response.body[this.localInstanceName]['data']
             this.pagination = response.body[this.localInstanceName] || null
             this.isLoading = false
-            } else { this.checkResponseHttpToAlert(response.status) }
-         }, response => { this.checkResponseHttpToAlert(response.status) })// error callback
+            } else { 
+              //this.checkResponseHttpToAlert(response.status) 
+            }
+         }, response => { 
+           //this.checkResponseHttpToAlert(response.status) 
+        })// error callback
       },
    
       navigateCustom () {
          this.isLoading = true
-         this.$http.get(`${this.environmentConfig.distantisPreprod.apiUrl}/${this.operatorName}/${this.localInstanceName}?page=` + 1 + '&per_page=' + this.pagination.per_page).then(response => {
+         this.$http.get(`${this.apiUrl}/frontend/${this.localInstanceName}?page=` + 1 + '&per_page=' + this.pagination.per_page).then(response => {
             //console.log(response)
             if (response.status == 200) {
             this.$data[this.localInstanceName] = response.body[this.localInstanceName]['data']
             this.$data[`${this.localInstanceName}Storage`] = response.body[this.localInstanceName]['data']
             this.pagination = response.body[this.localInstanceName] || null
             this.isLoading = false
-            } else { this.checkResponseHttpToAlert(response.status) }
-         }, response => { this.checkResponseHttpToAlert(response.status) })// error callback
+            } else { 
+              //this.checkResponseHttpToAlert(response.status) 
+            }
+         }, response => { 
+           //this.checkResponseHttpToAlert(response.status) 
+        })// error callback
       },
 
       processExcelDataWithObjectsOfLocalInstance: function (instanteObjectsData) {
