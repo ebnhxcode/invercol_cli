@@ -28,8 +28,8 @@
 					.column.is-2(style="padding-right: 0px")
 						aside-menu
 					.column.is-10.content
-						.box(style="position: sticky;padding-top: 10px;padding-bottom: 0.3px;top: 0;display: flex;z-index:10;margin-bottom: -0.5rem;")
-							.tabs.is-boxed
+						.box(style="position: sticky;padding-top: 1px;padding-bottom: 4px;top: 0;display: flex;z-index:10;margin-bottom: -0.5rem;")
+							.tabs.is-boxed(style="border-radius:5px 5px 5px 5px;")
 								ul(style="margin:0px;")
 									li
 									li(:class="[tabActive==='tab1' ? 'is-active' : '']", @click.prevent="tabActive='tab1'")
@@ -55,6 +55,7 @@
 									:textPrincipalFilter.sync="textPrincipalFilter",
 									:isPrincipalTextFilterEnabled.sync="isPrincipalTextFilterEnabled",
 								)
+                
 								table-pro(
 									v-show="!isLoading"
 								)
