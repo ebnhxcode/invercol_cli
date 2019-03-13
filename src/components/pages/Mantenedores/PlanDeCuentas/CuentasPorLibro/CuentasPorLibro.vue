@@ -50,7 +50,7 @@
 									v-show="!isLoading", 
 									:localInstanceName="localInstanceName",
 									:numberItemsToPaginate="numberItemsToPaginate",
-									:pagination.sync="pagination",
+									:pagination="pagination",
 									:localInstanceObjects.sync="cuentas",
 									:textPrincipalFilter.sync="textPrincipalFilter",
 									:isPrincipalTextFilterEnabled.sync="isPrincipalTextFilterEnabled",
@@ -118,7 +118,7 @@ export default {
 			
 			// Variables de paginación
 			pagination: { 'per_page':null }, // objeto requerido para paginacion
-			numberItemsToPaginate: [ 5,10,15,20,30,40,50,100 ],
+			numberItemsToPaginate: [ 5,10,15,20,30,40,50,100],
 
 			// Datos generales y de Acceso a contenidos
 			moduleName: "Módulo de Cuentas", // nombre de la instancia local por la page que hace ref. a hoteles -> hotel o a $data[this.localInstanceName]
@@ -190,7 +190,8 @@ export default {
 					this.cuentas = {}
 					this.cuentasStorage = {}
 					this.cuentas = response.body.cuentas.data
-					this.cuentasStorage = response.body.cuentas.data
+          this.cuentasStorage = response.body.cuentas.data
+          this.pagination = response.body.cuentas
 				}
 				this.isLoading = false
 			},
