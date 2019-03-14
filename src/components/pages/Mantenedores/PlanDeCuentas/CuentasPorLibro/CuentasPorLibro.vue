@@ -41,7 +41,10 @@
 
 						.box(v-show="tabActive != null")
 							div(v-show="tabActive==='tab1'")
-
+								modal-gestionar-cuentas(
+									:cuenta_dependencias="cuenta_dependencias",
+									:cuenta="cuenta"
+								)
 
 								// Cabecera de los campos de la tabla
 								table-columns(:modelInstance="modelInstance")
@@ -55,7 +58,7 @@
 									:textPrincipalFilter.sync="textPrincipalFilter",
 									:isPrincipalTextFilterEnabled.sync="isPrincipalTextFilterEnabled",
 								)
-                
+								
 								table-pro(
 									v-show="!isLoading"
 								)
@@ -63,9 +66,13 @@
 								loader(v-show="isLoading")
 														
 							div(v-show="tabActive==='tab2'")
-								| Crear Cuenta
+								.columns
+									.column.is-6
+										crear-cuenta(:cuenta_dependencias="cuenta_dependencias")
 							div(v-show="tabActive==='tab3'")
-								| Asociar Cuenta
+								.columns
+									.column.is-6
+										asociar-cuenta-libro(:cuentas="cuentas",:libros="libros")
 
 
 						
@@ -79,7 +86,8 @@ import AsideMenu from "@/components/layouts/Menus/AsideMenu.vue"
 import Loader from '@/components/shared/Loader.vue'
 import Spinner from '@/components/shared/Spinner.vue';
 import ModalGestionarCuentas from "@/components/pages/Mantenedores/PlanDeCuentas/CuentasPorLibro/Modals/ModalGestionarCuentas.vue"
-
+import CrearCuenta from "@/components/pages/Mantenedores/PlanDeCuentas/CuentasPorLibro/Forms/CrearCuenta.vue"
+import AsociarCuentaLibro from "@/components/pages/Mantenedores/PlanDeCuentas/CuentasPorLibro/Forms/AsociarCuentaLibro.vue"
 import TableColumns from '@/components/shared/TableColumns.vue'
 import TablePro from '@/components/shared/TablePro.vue'
 import ToolbarForTable from '@/components/shared/ToolbarForTable.vue'
@@ -99,6 +107,8 @@ export default {
 		TableColumns,
 		ToolbarForTable,
 		TablePro,
+		CrearCuenta,
+		AsociarCuentaLibro,
 	},
 	created() {
 		this.instanceTableWithLocalObjects()
@@ -137,6 +147,7 @@ export default {
 			/* Fin Setup del Framework */
 
 			/* Variables del Componente */
+			cuenta:{},
 			cuentas: [],
 			cuentasStorage: [], // auxiliar
 			libros: [],
@@ -153,21 +164,6 @@ export default {
 			this.obtenerDependencias()
 		},
 
-		eliminarAsociacionCuentaLibro: function (libro_cuenta_id) {
-
-			this.$http.delete(`${this.apiUrl}/frontend/libroscuentas/${libro_cuenta_id}`).then(response => {
-				// success callback
-				if (response.status == 200) {
-					console.log(response)
-					this.obtenerCuentas()
-					this.seleccionarFormatoNotificacion('success', 'delete', true, {})
-				}
-			},
-			response => {
-				// error callback
-			})
-
-		},
 		obtenerLibros: function() {
 			this.isLoading = true
 			this.$http.get(`${this.apiUrl}/frontend/libros`).then(response => {
@@ -190,8 +186,8 @@ export default {
 					this.cuentas = {}
 					this.cuentasStorage = {}
 					this.cuentas = response.body.cuentas.data
-          this.cuentasStorage = response.body.cuentas.data
-          this.pagination = response.body.cuentas
+					this.cuentasStorage = response.body.cuentas.data
+					this.pagination = response.body.cuentas
 				}
 				this.isLoading = false
 			},
@@ -252,8 +248,8 @@ export default {
 			(await 1) == 1
 			return
 		},
-		modalGestionarCuentas: function() {
-			
+		modalGestionarCuentas: function(cuenta) {
+			this.cuenta = cuenta
 			this.$modal.show("modal-gestionar-cuentas")
 		}
 	}

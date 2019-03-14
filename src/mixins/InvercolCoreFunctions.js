@@ -366,6 +366,11 @@ export const InvercolCoreFunctionsMixin = {
 					if (send) {
 						this.mostrarNotificacion('global',type,textOptions.title||'Obtención Exitosa',textOptions.text||'Registro Cargado')
 					}
+          break;
+        case 'custom':
+					if (send) {
+						this.mostrarNotificacion('global',type,textOptions.title||'Titulo custom',textOptions.text||'Texto Custom')
+					}
 					break;
 			}
 		},
