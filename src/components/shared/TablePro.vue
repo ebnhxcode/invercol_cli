@@ -14,7 +14,7 @@
 
           tr.is-text-centered(v-for="elem in $parent.$data['groupedMarkedElements']") 
             td
-              .button.is-small.tooltip.is-light(data-tooltip="Opciones",@click.prevent="$parent.modalGestionarCuentas()")
+              .button.is-small.tooltip.is-light(data-tooltip="Opciones",@click.prevent="$parent.modalGestionarCuentas(elem)")
                 v-icon(name="cogs")
               .button.is-small.is-danger.tooltip(data-tooltip="Quitar", @click.prevent="$parent.removeMarkedElement(elem)") ❌
 

@@ -45,7 +45,7 @@ export default {
       //Conforma objeto paramétrico para solicitud http
       formData.append(`cuenta_id`, nueva_cuenta_libro.cuenta_id)
       formData.append(`libro_id`, nueva_cuenta_libro.libro_id)
-      this.$http.post(`${environmentConfig.invercolProd.apiUrl}/frontend/libroscuentas`,formData).then(response => {
+      this.$http.post(`${environmentConfig.invercolProd.apiUrl}/frontend/libros_cuentas`,formData).then(response => {
         // success callback
 
         if (response.body.status == 401) {
