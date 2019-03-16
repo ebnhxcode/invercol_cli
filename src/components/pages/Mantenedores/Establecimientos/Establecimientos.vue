@@ -1,109 +1,82 @@
 <template lang="pug">
-  div
-    .section.hero.is-info.is-small.is-bold(v-show="isVisibleOptionsBanner==true")
-      .hero-head.header.nav.container.nav-left.nav-item.nav-right.nav-menu.content.has-text-centered
-      .hero-body
-        //.has-text-centered
-        h5.title Más opciones · Módulo de Establecimientos
-        h6 Invercol IO
+	div
+		.section.hero.is-info.is-small.is-bold(v-show="isVisibleOptionsBanner==true")
+			.hero-head.header.nav.container.nav-left.nav-item.nav-right.nav-menu.content.has-text-centered
+			.hero-body
+				//.has-text-centered
+				h5.title {{ moduleName }}
+				h6 Invercol IO
+		.hero.is-light.hero-head
+				//.content
+				.columns
+					.column.is-12
+						div.box(style="border-radius: 2px 2px 5px 5px")
+							.buttons
+								button.button.is-small(
+									@click.prevent="isVisibleOptionsBanner=!isVisibleOptionsBanner",
+									:class="isVisibleOptionsBanner==true?'is-danger':'is-primary'",
+									href="/#top"
+								)
+									small Más Opciones &nbsp
+									v-icon(name="arrow-up",v-if="isVisibleOptionsBanner==true")
+									v-icon(name="arrow-down",v-if="isVisibleOptionsBanner==false")
 
-    .hero.is-light.hero-head
-      .content
+								//modal-gestionar-cuentas(:cuentas="cuentas",:libros="libros",:cuenta_dependencias="cuenta_dependencias")
+								//button.button.is-small(@click.prevent="modalGestionarCuentas()") Gestionar Cuentas
+								
+				.columns.section(style="padding-top: 0px;")
+					.column.is-2(style="padding-right: 0px")
+						aside-menu
+					.column.is-10.content
+						.box(style="position: sticky;padding-top: 1px;padding-bottom: 4px;top: 0;display: flex;z-index:10;margin-bottom: -0.5rem;")
+							.tabs.is-boxed(style="border-radius:5px 5px 5px 5px;")
+								ul(style="margin:0px;")
+									li
+									li(:class="[tabActive==='tab1' ? 'is-active' : '']", @click.prevent="tabActive='tab1'")
+										a Lista de Establecimientos
+									li(:class="[tabActive==='tab2' ? 'is-active' : '']", @click.prevent="tabActive='tab2'")
+										a Crear Establecimiento
 
-        .columns
-          .column.is-12
-            div.box(style="border-radius: 2px 2px 5px 5px;")
-              .buttons
+						.box(v-show="tabActive != null")
+							div(v-show="tabActive==='tab1'")
+								modal-gestionar-cuentas(
+									:cuenta_dependencias="cuenta_dependencias",
+									:cuenta="cuenta"
+								)
 
-                button.button.is-small(
-                  @click.prevent="isVisibleOptionsBanner=!isVisibleOptionsBanner",
-                  :class="isVisibleOptionsBanner==true?'is-danger':'is-primary'",
-                  href="/#top"
-                )
-                  small Más Opciones &nbsp;
-                  v-icon(name="arrow-up",v-if="isVisibleOptionsBanner==true")
-                  v-icon(name="arrow-down",v-if="isVisibleOptionsBanner==false")
+								// Cabecera de los campos de la tabla
+								table-columns(:modelInstance="modelInstance")
 
-                button.button.is-small() Nuevo Libro
-                button.button.is-small() Asociar Libro a Cuenta
-                
-                modal-new-book
+								toolbar-for-table(
+									v-show="!isLoading", 
+									:localInstanceName="localInstanceName",
+									:numberItemsToPaginate="numberItemsToPaginate",
+									:pagination="pagination",
+									:localInstanceObjects.sync="cuentas",
+									:textPrincipalFilter.sync="textPrincipalFilter",
+									:isPrincipalTextFilterEnabled.sync="isPrincipalTextFilterEnabled",
+								)
+								
+								table-pro(
+									v-show="!isLoading"
+								)
 
-        .columns
-          .column.is-2.section(style="padding-right: 0px;")
-            aside-menu
-
-          .column.is-10.section
-
-            .columns
-              .column.is-6
-                div.box
-                  h2 Nuevo Establecimiento
-                  .field
-                    .field
-                      label Rbd
-                      input.input.is-fullwidth(type='text', v-model='nuevo_establecimiento.establecimiento_rbd')
-                    .field
-                      label Nombre
-                      input.input.is-fullwidth(type='text', v-model='nuevo_establecimiento.establecimiento_nombre')
-                    .field
-                      label Direccion
-                      input.input.is-fullwidth(v-model='nuevo_establecimiento.establecimiento_direccion')
-                    .field
-                      label Descripción
-                      input.textarea.is-fullwidth(v-model='nuevo_establecimiento.establecimiento_descripcion', rows="1")
-                    .field
-                      label Región
-                      .select.is-fullwidth
-                        select(v-model='nuevo_establecimiento.region_id')
-                          option(value='')
-                          option(v-for='r in regiones', :value='r.region_id') {{ r.region_nombre }}
-                          
-                    .field
-                      label Comuna
-                      .select.is-fullwidth
-                        select(v-model='nuevo_establecimiento.comuna_id')
-                          option(value='')
-                          option(v-for='c in comunas', :value='c.comuna_id', v-if="nuevo_establecimiento.region_id == c.region_id ||  nuevo_establecimiento.region_id == null || !nuevo_establecimiento.region_id") {{ c.comuna_nombre }}
-                          
-
-                  .field.is-grouped
-                    button.button.is-primary.is-small(
-                        @click.prevent="guardar_establecimiento()"
-                    ) Guardar Establecimiento
-
-              .column.is-6
-                div.box
+								loader(v-show="isLoading")
+														
+							div(v-show="tabActive==='tab2'")
+								.columns
+									.column.is-6
+										crear-cuenta(:cuenta_dependencias="cuenta_dependencias")
+							div(v-show="tabActive==='tab3'")
+								.columns
+									.column.is-6
+										asociar-cuenta-libro(:cuentas="cuentas",:libros="libros")
 
 
+						
 
-            div.box
-               h2 Establecimientos               
-               table
-                  thead
-                     tr
-                        th Acciones 
-                        th Establecimiento ID
-                        th Rbd
-                        th Nombre
-                        th Dirección
-                        th Descripción
-                        th Region
-                        th Comuna
-                  tbody
-                     tr(v-for="establecimiento in establecimientos")
-                        th 
-                           .button.is-small.tooltip.is-light(data-tooltip="Opciones")
-                              v-icon(name="cogs")
-                           .button.is-small.tooltip.is-light(data-tooltip="Eliminar")
-                              v-icon(name="times")
-                        td {{ establecimiento.establecimiento_id }}
-                        td {{ establecimiento.establecimiento_rbd }}
-                        td {{ establecimiento.establecimiento_nombre }}
-                        td {{ establecimiento.establecimiento_direccion }}
-                        td {{ establecimiento.establecimiento_descripcion }}
-
-
+							
+				
 </template>
 <script>
 
