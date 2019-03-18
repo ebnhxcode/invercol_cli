@@ -1,0 +1,31 @@
+export const Subvencion = {
+  field1:{
+    label:'ID',
+    field:'rbd_id',
+    searchTextInField:'',
+    arrayTextsInSearch:[],
+    isVisible:false,
+    isFilterActive: false,
+    isRestrictiveFilter:false,
+  },
+  field2:{
+    label:'Código',
+    field:'subvencion_codigo',
+    defaultValue:'Sin código',
+    searchTextInField:'',
+    arrayTextsInSearch:[],
+    isVisible:false,
+    isFilterActive: false,
+    isRestrictiveFilter:false,
+  },
+  field3:{
+    label:'Nombre',
+    field:'subvencion_nombre',
+    defaultValue:'Sin nombre',
+    searchTextInField:'',
+    arrayTextsInSearch:[],
+    isVisible:true,
+    isFilterActive: false,    
+    isRestrictiveFilter:false,
+  },
+}

@@ -55,9 +55,9 @@
           router-link(to="/mantenedores/plandecuentas/cuentas", tag="a", exact) 
             v-icon(name="file-invoice-dollar")
             |&nbsp;Cuentas
-          router-link(to="/mantenedores/plandecuentas/subvencionporcuenta", tag="a", exact) 
+          router-link(to="/mantenedores/plandecuentas/subvenciones", tag="a", exact) 
             v-icon(name="file-invoice-dollar")
-            |&nbsp;Subvención por Cuenta
+            |&nbsp;Subvenciones
 
 
       p.menu-label

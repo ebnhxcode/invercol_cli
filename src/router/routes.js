@@ -20,7 +20,7 @@ import Usuarios from '@/components/pages/Mantenedores/Usuarios/Usuarios.vue'
    * Plan de Cuentas - Sub Menu de Mantenedores
   */
   import Cuentas from '@/components/pages/Mantenedores/PlanDeCuentas/Cuentas/Cuentas.vue'
-  import SubvencionPorCuenta from '@/components/pages/Mantenedores/PlanDeCuentas/SubvencionPorCuenta/SubvencionPorCuenta.vue'
+  import Subvenciones from '@/components/pages/Mantenedores/PlanDeCuentas/Subvenciones/Subvenciones.vue'
 /**
  * Perfil de Usuarios
  */
@@ -70,7 +70,7 @@ export const routes = [
   { path: '/mantenedores/usuarios', name: 'Usuarios', component: Usuarios },
     /* Rutas Plan de Cuentas - Sub de Mantenedores */
     { path: '/mantenedores/plandecuentas/cuentas', name: 'Cuentas', component: Cuentas },
-    { path: '/mantenedores/plandecuentas/subvencionporcuenta', name: 'SubvencionPorCuenta', component: SubvencionPorCuenta },
+    { path: '/mantenedores/plandecuentas/subvenciones', name: 'Subvenciones', component: Subvenciones },
   /* Rutas Perfil de Usuarios */
   { path: '/perfildeusuarios/notificaciones', name: 'Notificaciones', component: Notificaciones },
   { path: '/perfildeusuarios/perfilusuario', name: 'PerfilUsuario', component: PerfilUsuario },
