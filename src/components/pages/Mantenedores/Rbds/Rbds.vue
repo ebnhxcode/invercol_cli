@@ -30,16 +30,15 @@
 								ul(style="margin:0px;")
 									li
 									li(:class="[tabActive==='tab1' ? 'is-active' : '']", @click.prevent="tabActive='tab1'")
-										a Lista de Establecimientos
+										a Lista de Rbd
 									li(:class="[tabActive==='tab2' ? 'is-active' : '']", @click.prevent="tabActive='tab2'")
-										a Crear Establecimiento
+										a Crear Rbd
 
 						.box(v-show="tabActive != null")
 							div(v-show="tabActive==='tab1'")
-								modal-gestionar-establecimientos(
-									:establecimiento="establecimiento",
-									:regiones="api_regiones",
-									:comunas="api_comunas"
+								modal-gestionar-rbds(
+									:rbd="rbd",
+									:establecimientos="establecimientos",
 								)
 
 								// Cabecera de los campos de la tabla
@@ -50,7 +49,7 @@
 									:localInstanceName="localInstanceName",
 									:numberItemsToPaginate="numberItemsToPaginate",
 									:pagination="pagination",
-									:localInstanceObjects.sync="establecimientos",
+									:localInstanceObjects.sync="rbds",
 									:textPrincipalFilter.sync="textPrincipalFilter",
 									:isPrincipalTextFilterEnabled.sync="isPrincipalTextFilterEnabled",
 								)
@@ -64,26 +63,31 @@
 							div(v-show="tabActive==='tab2'")
 								.columns
 									.column.is-6
-										crear-establecimiento(
-											:regiones="api_regiones",
-											:comunas="api_comunas"
-										)
+										crear-rbd(:establecimientos="establecimientos")
 							div(v-show="tabActive==='tab3'")
 								.columns
 									.column.is-6
+										
+
+
+						
+
+							
+				
 </template>
+
 <script>
 
 import AsideMenu from '@/components/layouts/Menus/AsideMenu.vue'
 import Loader from '@/components/shared/Loader.vue'
 import Spinner from '@/components/shared/Spinner.vue';
-import ModalGestionarEstablecimientos from "@/components/pages/Mantenedores/Establecimientos/Modals/ModalGestionarEstablecimientos.vue"
-import CrearEstablecimiento from "@/components/pages/Mantenedores/Establecimientos/Forms/CrearEstablecimiento.vue"
+import ModalGestionarRbds from "@/components/pages/Mantenedores/Rbds/Modals/ModalGestionarRbds.vue"
+import CrearRbd from "@/components/pages/Mantenedores/Rbds/Forms/CrearRbd.vue"
 import TableColumns from '@/components/shared/TableColumns.vue'
 import TablePro from '@/components/shared/TablePro.vue'
 import ToolbarForTable from '@/components/shared/ToolbarForTable.vue'
 
-import { Establecimiento } from '@/models/Establecimiento'
+import { Rbd } from '@/models/Rbd'
 
 import { InvercolCoreFunctionsMixin } from '@/mixins/InvercolCoreFunctions.js'
 import { environmentConfig } from "@/services/environments/environment-config"
@@ -94,8 +98,8 @@ export default {
 		AsideMenu,
 		Spinner,
 		Loader,
-		ModalGestionarEstablecimientos,
-		CrearEstablecimiento,
+		ModalGestionarRbds,
+		CrearRbd,
 		TableColumns,
 		ToolbarForTable,
 		TablePro,
@@ -105,6 +109,7 @@ export default {
 	},
 	data() {
 		return {
+
 			/* Setup del Framework · Todos son requeridos */
 
 			isVisibleOptionsBanner: false, // variable de estado que indica si se visualiza o no el banner adicional superior
@@ -120,11 +125,11 @@ export default {
 			numberItemsToPaginate: [ 5,10,15,20,30,40,50,100,250,500,750,1000],
 
 			// Datos generales y de Acceso a contenidos
-			moduleName: "Módulo de Establecimientos", // nombre de la instancia local por la page que hace ref. a hoteles -> hotel o a $data[this.localInstanceName]
-			localInstanceNameDetail: "Establecimientos", // nombre de la instancia local por la page que hace ref. a hoteles -> hotel o a $data[this.localInstanceName]
-			localInstanceName: "establecimientos", // nombre de la instancia local por la page que hace ref. a hoteles -> hotel o a $data[this.localInstanceName]
-			localInstanceNameListObjects: "establecimientos", // nombre de la instancia local por la page que hace ref. a hoteles -> hotel o a $data[this.localInstanceName]
-			modelInstance: Establecimiento, // modelo de la clase o recurso principal de la vista mantenedor
+			moduleName: "Módulo de Rbds", // nombre de la instancia local por la page que hace ref. a hoteles -> hotel o a $data[this.localInstanceName]
+			localInstanceNameDetail: "Rbds", // nombre de la instancia local por la page que hace ref. a hoteles -> hotel o a $data[this.localInstanceName]
+			localInstanceName: "rbds", // nombre de la instancia local por la page que hace ref. a hoteles -> hotel o a $data[this.localInstanceName]
+			localInstanceNameListObjects: "rbds", // nombre de la instancia local por la page que hace ref. a hoteles -> hotel o a $data[this.localInstanceName]
+			modelInstance: Rbd, // modelo de la clase o recurso principal de la vista mantenedor
 			apiUrl: environmentConfig.invercolProd.apiUrl, // url del backend
 			environmentConfig: environmentConfig, // config local
 			
@@ -132,23 +137,20 @@ export default {
 			//Configuraciones
 			orderList: 'asc', // orden por defecto en la tabla
 			tabActive:'tab1', // default tab que se muestra al inicio de cada vista
-			object_id: 'establecimiento_id',
+			object_id: 'rbd_id',
+
 
 
 			/* Variables y Setup del Componente */
-			establecimiento:{},
+			rbd:{},
+			rbds:[],
 			establecimientos:[],
-			establecimientosStorage:[],
-			api_regiones:[],
-			api_comunas:[],
+			nuevo_rbd: {
+				rbd_codigo:'',
+				rbd_nombre:'',
+				rbd_descripcion:'',
 
-			nuevo_establecimiento: {
-				establecimiento_nombre:'',
-				establecimiento_direccion:'',
-				establecimiento_descripcion:'',
-
-				region_id:'',
-				comuna_id:'',
+				establecimiento_id:'',
 			},
 
 
@@ -158,51 +160,40 @@ export default {
 	watch: {},
 	methods: {
 		instanceTableWithLocalObjects(){
+			this.obtenerRbds()
 			this.obtenerEstablecimientos()
-			this.apiObtenerRegiones()
-			this.apiObtenerComunas()
+
+		},
+
+		obtenerRbds: function () {
+			this.isLoading = true
+
+			this.$http.get(`${this.apiUrl}/frontend/rbds`)
+				.then(response => { // success callback
+					if (response.status = 200) {
+						this.rbds = response.body.rbds.data
+					}
+					this.isLoading = false
+			}, response => { /*// error callback //this.checkResponseHttpToAlert(response.status)*/ });
 		},
 
 		obtenerEstablecimientos: function () {
 			this.isLoading = true
 
-			this.$http.get(`${this.apiUrl}/frontend/establecimientos`)
+			this.$http.get(`${this.apiUrl}/api/establecimientos`)
 				.then(response => { // success callback
 					if (response.status = 200) {
-						this.establecimientos = response.body.establecimientos.data
-						this.establecimientosStorage = response.body.establecimientos.data
-					}
-					this.isLoading = false
-			}, response => { /*// error callback //this.checkResponseHttpToAlert(response.status)*/ });
-		},
-		apiObtenerRegiones: function () {
-			this.isLoading = true
-
-			this.$http.get(`${this.apiUrl}/api/regiones`)
-				.then(response => { // success callback
-					if (response.status = 200) {
-						this.api_regiones = response.body
-					}
-					this.isLoading = false
-			}, response => { /*// error callback //this.checkResponseHttpToAlert(response.status)*/ });
-		},
-		apiObtenerComunas: function () {
-			this.isLoading = true
-
-			this.$http.get(`${this.apiUrl}/api/comunas`)
-				.then(response => { // success callback
-					if (response.status = 200) {
-						this.api_comunas = response.body
+						this.establecimientos = response.body
 					}
 					this.isLoading = false
 			}, response => { /*// error callback //this.checkResponseHttpToAlert(response.status)*/ });
 		},
 
-
-		modalGestionarElemento: function(establecimiento) {
-			this.establecimiento = establecimiento
-			this.$modal.show("modal-gestionar-establecimientos")
+		modalGestionarElemento: function(rbd) {
+			this.rbd = rbd
+			this.$modal.show("modal-gestionar-rbds")
 		}
+
 	}
 
 }

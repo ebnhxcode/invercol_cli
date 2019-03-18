@@ -295,7 +295,7 @@ export const InvercolCoreFunctionsMixin = {
       reloadLocalInstanceObjects() {
          this.$data[this.localInstanceName] = this.$data[`${this.localInstanceName}Storage`]
       },
-      restartTable() {
+      restartTable: function () {
          //if (JSON.parse(localStorage.getItem(`${this.localInstanceName}`)) === null) { return }
          if (this.$data[`${this.localInstanceName}Storage`].length === 0) {
            return

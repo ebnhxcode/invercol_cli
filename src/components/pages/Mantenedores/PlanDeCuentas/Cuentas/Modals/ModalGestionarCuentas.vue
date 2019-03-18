@@ -34,8 +34,8 @@
 <script>
 //import moment from 'moment'
 
-import ActualizarCuenta from "@/components/pages/Mantenedores/PlanDeCuentas/CuentasPorLibro/Forms/ActualizarCuenta.vue"
-import MantenerCuentaLibro from "@/components/pages/Mantenedores/PlanDeCuentas/CuentasPorLibro/Forms/MantenerCuentaLibro.vue"
+import ActualizarCuenta from "@/components/pages/Mantenedores/PlanDeCuentas/Cuentas/Forms/ActualizarCuenta.vue"
+import MantenerCuentaLibro from "@/components/pages/Mantenedores/PlanDeCuentas/Cuentas/Forms/MantenerCuentaLibro.vue"
 
 import { InvercolCoreFunctionsMixin } from '@/mixins/InvercolCoreFunctions.js'
 import { environmentConfig } from "@/services/environments/environment-config"

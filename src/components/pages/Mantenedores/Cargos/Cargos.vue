@@ -30,16 +30,18 @@
 								ul(style="margin:0px;")
 									li
 									li(:class="[tabActive==='tab1' ? 'is-active' : '']", @click.prevent="tabActive='tab1'")
-										a Lista de Establecimientos
+										a Lista de Cargos
 									li(:class="[tabActive==='tab2' ? 'is-active' : '']", @click.prevent="tabActive='tab2'")
-										a Crear Establecimiento
+										a Crear Cargo
+									li(:class="[tabActive==='tab3' ? 'is-active' : '']", @click.prevent="tabActive='tab3'")
+										a Asociar Función a Cargo
 
 						.box(v-show="tabActive != null")
 							div(v-show="tabActive==='tab1'")
-								modal-gestionar-establecimientos(
-									:establecimiento="establecimiento",
-									:regiones="api_regiones",
-									:comunas="api_comunas"
+								modal-gestionar-cargos(
+									:cargo="cargo",
+									:funciones="api_funciones",
+									:tipo_cargos="api_tipo_cargos",
 								)
 
 								// Cabecera de los campos de la tabla
@@ -50,7 +52,7 @@
 									:localInstanceName="localInstanceName",
 									:numberItemsToPaginate="numberItemsToPaginate",
 									:pagination="pagination",
-									:localInstanceObjects.sync="establecimientos",
+									:localInstanceObjects.sync="cargos",
 									:textPrincipalFilter.sync="textPrincipalFilter",
 									:isPrincipalTextFilterEnabled.sync="isPrincipalTextFilterEnabled",
 								)
@@ -64,29 +66,29 @@
 							div(v-show="tabActive==='tab2'")
 								.columns
 									.column.is-6
-										crear-establecimiento(
-											:regiones="api_regiones",
-											:comunas="api_comunas"
+										crear-cargo(
+											:tipo_cargos="api_tipo_cargos",
 										)
 							div(v-show="tabActive==='tab3'")
 								.columns
 									.column.is-6
 </template>
+
 <script>
 
 import AsideMenu from '@/components/layouts/Menus/AsideMenu.vue'
 import Loader from '@/components/shared/Loader.vue'
 import Spinner from '@/components/shared/Spinner.vue';
-import ModalGestionarEstablecimientos from "@/components/pages/Mantenedores/Establecimientos/Modals/ModalGestionarEstablecimientos.vue"
-import CrearEstablecimiento from "@/components/pages/Mantenedores/Establecimientos/Forms/CrearEstablecimiento.vue"
+import ModalGestionarFunciones from "@/components/pages/Mantenedores/Funciones/Modals/ModalGestionarFunciones.vue"
+import CrearFuncion from "@/components/pages/Mantenedores/Funciones/Forms/CrearFuncion.vue"
 import TableColumns from '@/components/shared/TableColumns.vue'
 import TablePro from '@/components/shared/TablePro.vue'
 import ToolbarForTable from '@/components/shared/ToolbarForTable.vue'
 
-import { Establecimiento } from '@/models/Establecimiento'
+import { Funcion } from '@/models/Funcion'
 
 import { InvercolCoreFunctionsMixin } from '@/mixins/InvercolCoreFunctions.js'
-import { environmentConfig } from "@/services/environments/environment-config"
+import { environmentConfig } from '@/services/environments/environment-config'
 
 export default {
 	mixins: [ InvercolCoreFunctionsMixin ],
@@ -94,8 +96,8 @@ export default {
 		AsideMenu,
 		Spinner,
 		Loader,
-		ModalGestionarEstablecimientos,
-		CrearEstablecimiento,
+		ModalGestionarFunciones,
+		CrearFuncion,
 		TableColumns,
 		ToolbarForTable,
 		TablePro,
@@ -120,11 +122,11 @@ export default {
 			numberItemsToPaginate: [ 5,10,15,20,30,40,50,100,250,500,750,1000],
 
 			// Datos generales y de Acceso a contenidos
-			moduleName: "Módulo de Establecimientos", // nombre de la instancia local por la page que hace ref. a hoteles -> hotel o a $data[this.localInstanceName]
-			localInstanceNameDetail: "Establecimientos", // nombre de la instancia local por la page que hace ref. a hoteles -> hotel o a $data[this.localInstanceName]
-			localInstanceName: "establecimientos", // nombre de la instancia local por la page que hace ref. a hoteles -> hotel o a $data[this.localInstanceName]
-			localInstanceNameListObjects: "establecimientos", // nombre de la instancia local por la page que hace ref. a hoteles -> hotel o a $data[this.localInstanceName]
-			modelInstance: Establecimiento, // modelo de la clase o recurso principal de la vista mantenedor
+			moduleName: "Módulo de Cargos", // nombre de la instancia local por la page que hace ref. a hoteles -> hotel o a $data[this.localInstanceName]
+			localInstanceNameDetail: "Cargos", // nombre de la instancia local por la page que hace ref. a hoteles -> hotel o a $data[this.localInstanceName]
+			localInstanceName: "cargos", // nombre de la instancia local por la page que hace ref. a hoteles -> hotel o a $data[this.localInstanceName]
+			localInstanceNameListObjects: "cargos", // nombre de la instancia local por la page que hace ref. a hoteles -> hotel o a $data[this.localInstanceName]
+			modelInstance: Cargo, // modelo de la clase o recurso principal de la vista mantenedor
 			apiUrl: environmentConfig.invercolProd.apiUrl, // url del backend
 			environmentConfig: environmentConfig, // config local
 			
@@ -132,24 +134,16 @@ export default {
 			//Configuraciones
 			orderList: 'asc', // orden por defecto en la tabla
 			tabActive:'tab1', // default tab que se muestra al inicio de cada vista
-			object_id: 'establecimiento_id',
+			object_id: 'cargo_id',
 
 
 			/* Variables y Setup del Componente */
-			establecimiento:{},
-			establecimientos:[],
-			establecimientosStorage:[],
-			api_regiones:[],
-			api_comunas:[],
+			cargo:{}, // lista de libros
+			cargos:[], // lista de libros
+			cargosStorage:[], // lista de libros
+			api_cargos:[], // lista de libros
+			api_tipo_funciones:[], // lista de libros
 
-			nuevo_establecimiento: {
-				establecimiento_nombre:'',
-				establecimiento_direccion:'',
-				establecimiento_descripcion:'',
-
-				region_id:'',
-				comuna_id:'',
-			},
 
 
 		}
@@ -158,50 +152,52 @@ export default {
 	watch: {},
 	methods: {
 		instanceTableWithLocalObjects(){
-			this.obtenerEstablecimientos()
-			this.apiObtenerRegiones()
-			this.apiObtenerComunas()
+			this.obtenerFunciones()
+			this.apiObtenerCargos()
+			this.apiObtenerTipoFunciones()
 		},
 
-		obtenerEstablecimientos: function () {
+		obtenerFunciones: function () {
 			this.isLoading = true
-
-			this.$http.get(`${this.apiUrl}/frontend/establecimientos`)
+			this.$http.get(`${environmentConfig.invercolProd.apiUrl}/frontend/funciones`)
 				.then(response => { // success callback
 					if (response.status = 200) {
-						this.establecimientos = response.body.establecimientos.data
-						this.establecimientosStorage = response.body.establecimientos.data
-					}
-					this.isLoading = false
-			}, response => { /*// error callback //this.checkResponseHttpToAlert(response.status)*/ });
-		},
-		apiObtenerRegiones: function () {
-			this.isLoading = true
-
-			this.$http.get(`${this.apiUrl}/api/regiones`)
-				.then(response => { // success callback
-					if (response.status = 200) {
-						this.api_regiones = response.body
-					}
-					this.isLoading = false
-			}, response => { /*// error callback //this.checkResponseHttpToAlert(response.status)*/ });
-		},
-		apiObtenerComunas: function () {
-			this.isLoading = true
-
-			this.$http.get(`${this.apiUrl}/api/comunas`)
-				.then(response => { // success callback
-					if (response.status = 200) {
-						this.api_comunas = response.body
+						this.funciones = {}
+						this.funcionesStorage = {}
+						this.funciones = response.body.funciones.data
+						this.funcionesStorage = response.body.funciones.data
 					}
 					this.isLoading = false
 			}, response => { /*// error callback //this.checkResponseHttpToAlert(response.status)*/ });
 		},
 
+		apiObtenerCargos: function () {
+			this.isLoading = true
+			this.$http.get(`${environmentConfig.invercolProd.apiUrl}/api/cargos`)
+				.then(response => { // success callback
+					if (response.status = 200) {
+						this.api_cargos = {}
+						this.api_cargos = response.body
+					}
+					this.isLoading = false
+			}, response => { /*// error callback //this.checkResponseHttpToAlert(response.status)*/ });
+		},
 
-		modalGestionarElemento: function(establecimiento) {
-			this.establecimiento = establecimiento
-			this.$modal.show("modal-gestionar-establecimientos")
+		apiObtenerTipoFunciones: function () {
+			this.isLoading = true
+			this.$http.get(`${environmentConfig.invercolProd.apiUrl}/api/tipo_funciones`)
+				.then(response => { // success callback
+					if (response.status = 200) {
+						this.api_tipo_funciones = {}
+						this.api_tipo_funciones = response.body
+					}
+					this.isLoading = false
+			}, response => { /*// error callback //this.checkResponseHttpToAlert(response.status)*/ });
+		},
+
+		modalGestionarElemento: function (funcion) {
+			this.funcion = funcion
+			this.$modal.show("modal-gestionar-funciones")
 		}
 	}
 

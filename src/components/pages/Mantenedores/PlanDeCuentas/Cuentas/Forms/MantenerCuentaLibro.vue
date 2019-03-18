@@ -1,6 +1,6 @@
 <template lang="pug">
   div
-    h2 Mantener Libros
+    h2 Mantener Libros Asociados
     table
       thead
         tr
@@ -39,13 +39,9 @@ export default {
   },
   created() {},
   methods: {
-      removeMarkedElement: function (elem) {
-        this.groupedMarkedElements.splice(this.groupedMarkedElements.indexOf(elem), 1)
-      },
-
 		eliminarAsociacionCuentaLibro: function (libro_cuenta_id) {
 
-			this.$http.delete(`${this.apiUrl}/frontend/libroscuentas/${libro_cuenta_id}`).then(response => {
+			this.$http.delete(`${this.apiUrl}/frontend/libros_cuentas/${libro_cuenta_id}`).then(response => {
 				// success callback
 				if (response.status == 200) {
           this.cuenta.libros_cuentas.splice(this.cuenta.libros_cuentas.indexOf(libro_cuenta_id), 1)

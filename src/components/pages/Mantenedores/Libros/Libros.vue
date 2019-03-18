@@ -33,17 +33,18 @@
 								ul(style="margin:0px;")
 									li
 									li(:class="[tabActive==='tab1' ? 'is-active' : '']", @click.prevent="tabActive='tab1'")
-										a Lista de Cuentas
+										a Lista de Libros
 									li(:class="[tabActive==='tab2' ? 'is-active' : '']", @click.prevent="tabActive='tab2'")
-										a Crear Cuenta
+										a Crear Libro
 									li(:class="[tabActive==='tab3' ? 'is-active' : '']", @click.prevent="tabActive='tab3'")
-										a Asociar Cuenta
+										a Asociar Libro a Cuenta
 
 						.box(v-show="tabActive != null")
 							div(v-show="tabActive==='tab1'")
-								modal-gestionar-cuentas(
-									:cuenta_dependencias="cuenta_dependencias",
-									:cuenta="cuenta"
+								modal-gestionar-libros(
+									:libro="libro",
+									:libros="api_libros",
+									:cuentas="api_cuentas"
 								)
 
 								// Cabecera de los campos de la tabla
@@ -54,7 +55,7 @@
 									:localInstanceName="localInstanceName",
 									:numberItemsToPaginate="numberItemsToPaginate",
 									:pagination="pagination",
-									:localInstanceObjects.sync="cuentas",
+									:localInstanceObjects.sync="libros",
 									:textPrincipalFilter.sync="textPrincipalFilter",
 									:isPrincipalTextFilterEnabled.sync="isPrincipalTextFilterEnabled",
 								)
@@ -68,33 +69,31 @@
 							div(v-show="tabActive==='tab2'")
 								.columns
 									.column.is-6
-										crear-cuenta(:cuenta_dependencias="cuenta_dependencias")
+										crear-libro()
 							div(v-show="tabActive==='tab3'")
 								.columns
 									.column.is-6
-										asociar-cuenta-libro(:cuentas="cuentas",:libros="libros")
+										asociar-cuenta-libro(
+											:libros="api_libros",
+											:cuentas="api_cuentas"
+										)
 
 
-						
-
-							
-				
 </template>
 <script>
-
 import AsideMenu from "@/components/layouts/Menus/AsideMenu.vue"
 import Loader from '@/components/shared/Loader.vue'
 import Spinner from '@/components/shared/Spinner.vue';
-import ModalGestionarCuentas from "@/components/pages/Mantenedores/PlanDeCuentas/CuentasPorLibro/Modals/ModalGestionarCuentas.vue"
-import CrearCuenta from "@/components/pages/Mantenedores/PlanDeCuentas/CuentasPorLibro/Forms/CrearCuenta.vue"
-import AsociarCuentaLibro from "@/components/pages/Mantenedores/PlanDeCuentas/CuentasPorLibro/Forms/AsociarCuentaLibro.vue"
+import ModalGestionarLibros from "@/components/pages/Mantenedores/Libros/Modals/ModalGestionarLibros.vue"
+import CrearLibro from "@/components/pages/Mantenedores/Libros/Forms/CrearLibro.vue"
+import AsociarCuentaLibro from "@/components/pages/Mantenedores/PlanDeCuentas/Cuentas/Forms/AsociarCuentaLibro.vue"
 import TableColumns from '@/components/shared/TableColumns.vue'
 import TablePro from '@/components/shared/TablePro.vue'
 import ToolbarForTable from '@/components/shared/ToolbarForTable.vue'
 
-import { Cuenta } from '@/models/Cuenta'
+import { Libro } from '@/models/Libro'
 
-import { InvercolCoreFunctionsMixin } from '@/mixins/InvercolCoreFunctions.js'
+import { InvercolCoreFunctionsMixin } from "@/mixins/InvercolCoreFunctions.js"
 import { environmentConfig } from "@/services/environments/environment-config"
 
 export default {
@@ -103,16 +102,15 @@ export default {
 		AsideMenu,
 		Spinner,
 		Loader,
-		ModalGestionarCuentas,
+		ModalGestionarLibros,
 		TableColumns,
 		ToolbarForTable,
 		TablePro,
-		CrearCuenta,
+		CrearLibro,
 		AsociarCuentaLibro,
 	},
 	created() {
 		this.instanceTableWithLocalObjects()
-		// Tipo de notificacion , Titulo de los mensajes , Mensajes , Grupo
 	},
 	data() {
 		return {
@@ -128,31 +126,26 @@ export default {
 			
 			// Variables de paginación
 			pagination: { 'per_page':null }, // objeto requerido para paginacion
-			numberItemsToPaginate: [ 5,10,15,20,30,40,50,100],
+			numberItemsToPaginate: [ 5,10,15,20,30,40,50,100,250,500,750,1000],
 
 			// Datos generales y de Acceso a contenidos
-			moduleName: "Módulo de Cuentas", // nombre de la instancia local por la page que hace ref. a hoteles -> hotel o a $data[this.localInstanceName]
-			localInstanceNameDetail: "Cuentas", // nombre de la instancia local por la page que hace ref. a hoteles -> hotel o a $data[this.localInstanceName]
-			localInstanceName: "cuentas", // nombre de la instancia local por la page que hace ref. a hoteles -> hotel o a $data[this.localInstanceName]
-			localInstanceNameListObjects: "cuentas", // nombre de la instancia local por la page que hace ref. a hoteles -> hotel o a $data[this.localInstanceName]
-			modelInstance: Cuenta, // modelo de la clase o recurso principal de la vista mantenedor
+			moduleName: "Módulo de Libros", // nombre de la instancia local por la page que hace ref. a hoteles -> hotel o a $data[this.localInstanceName]
+			localInstanceNameDetail: "Libros", // nombre de la instancia local por la page que hace ref. a hoteles -> hotel o a $data[this.localInstanceName]
+			localInstanceName: "libros", // nombre de la instancia local por la page que hace ref. a hoteles -> hotel o a $data[this.localInstanceName]
+			localInstanceNameListObjects: "libros", // nombre de la instancia local por la page que hace ref. a hoteles -> hotel o a $data[this.localInstanceName]
+			modelInstance: Libro, // modelo de la clase o recurso principal de la vista mantenedor
 			apiUrl: environmentConfig.invercolProd.apiUrl, // url del backend
 			environmentConfig: environmentConfig, // config local
 
 			//Configuraciones
 			orderList: 'asc', // orden por defecto en la tabla
 			tabActive:'tab1', // default tab que se muestra al inicio de cada vista
-			object_id: 'cuenta_id',
+			object_id: 'libro_id',
 
-			/* Fin Setup del Framework */
-
-			/* Variables del Componente */
-			cuenta:{},
-			cuentas: [],
-			cuentasStorage: [], // auxiliar
+			libro: {},
 			libros: [],
-			cuenta_dependencias: [],
-
+			api_libros: [],
+			api_cuentas: [],
 		}
 	},
 
@@ -160,8 +153,8 @@ export default {
 	methods: {
 		instanceTableWithLocalObjects() {
 			this.obtenerLibros()
-			this.obtenerCuentas()
-			this.obtenerDependencias()
+			this.apiObtenerLibros()
+			this.apiObtenerCuentas()
 		},
 
 		obtenerLibros: function() {
@@ -178,30 +171,14 @@ export default {
 				/*// error callback //this.checkResponseHttpToAlert(response.status)*/
 			})
 		},
-		obtenerCuentas: function() {
+
+		apiObtenerLibros: function() {
 			this.isLoading = true
-			this.$http.get(`${this.apiUrl}/frontend/cuentas`).then(response => {
+			this.$http.get(`${this.apiUrl}/api/libros`).then(response => {
 				// success callback
 				if ((response.status = 200)) {
-					this.cuentas = {}
-					this.cuentasStorage = {}
-					this.cuentas = response.body.cuentas.data
-					this.cuentasStorage = response.body.cuentas.data
-					this.pagination = response.body.cuentas
-				}
-				this.isLoading = false
-			},
-			response => {
-				/*// error callback //this.checkResponseHttpToAlert(response.status)*/
-			})
-		},
-		obtenerDependencias: function() {
-			this.isLoading = true
-			this.$http.get(`${this.apiUrl}/frontend/cuenta_dependencias`).then(response => {
-				// success callback
-				if ((response.status = 200)) {
-					this.cuenta_dependencias = {}
-					this.cuenta_dependencias = response.body
+					this.api_libros = {}
+					this.api_libros = response.body
 				}
 				this.isLoading = false
 			},
@@ -210,33 +187,34 @@ export default {
 			})
 		},
 
-		eliminarCuenta: function(cuenta_id) {
-			//var formData = new FormData()
-			//Conforma objeto paramétrico para solicitud http
-			//formData.append(`libro_id`, libro_id)
-			this.$http.delete(`${this.apiUrl}/frontend/cuentas/${cuenta_id}`).then(response => {
+		apiObtenerCuentas: function() {
+			this.isLoading = true
+			this.$http.get(`${this.apiUrl}/api/cuentas`).then(response => {
+				// success callback
+				if ((response.status = 200)) {
+					this.api_cuentas = {}
+					this.api_cuentas = response.body
+				}
+				this.isLoading = false
+			},
+			response => {
+				/*// error callback //this.checkResponseHttpToAlert(response.status)*/
+			})
+		},
+
+		eliminarLibro: function(libro_id) {
+
+			this.$http.delete(`${this.apiUrl}/frontend/libros/${libro_id}`).then(response => {
 				// success callback
 				if (response.status == 200) {
 					console.log(response)
-					this.obtenerCuentas()
-					this.seleccionarFormatoNotificacion('success', 'delete', true, {})
-				}
-			},
-			response => {
-				// error callback
-			})
-		},
-		editarCuenta: function(cuenta_id) {
-			this.id_cuenta_edicion = cuenta_id
-		},
-		actualizarCuenta: function(cuenta) {
-			this.$http.put(`${this.apiUrl}/frontend/cuentas/${cuenta.cuenta_id}`,cuenta).then(response => {
-				// success callback
-				if (response.status == 200 || response.status == 201) {
-					console.log(response)
-					this.obtenerCuentas()
-					this.seleccionarFormatoNotificacion('success', 'update', true, {})
-					this.id_cuenta_edicion = null
+					this.obtenerLibros()
+					this.seleccionarFormatoNotificacion(
+						"success",
+						"delete",
+						true,
+						{}
+					)
 				}
 			},
 			response => {
@@ -244,53 +222,13 @@ export default {
 			})
 		},
 
-		obtenerCuenta: async function() {
-			(await 1) == 1
-			return
+
+
+		modalGestionarElemento: function(libro) {
+			this.libro = libro
+			this.$modal.show("modal-gestionar-libros")
 		},
-		modalGestionarCuentas: function(cuenta) {
-			this.cuenta = cuenta
-			this.$modal.show("modal-gestionar-cuentas")
-		}
+
 	}
 }
 </script>
-<style>
-#tab-content p {
-	 display: none;
-}
-
-#tab-content p.is-active {
-	 display: block;
-}
-.box {
-	overflow-x: auto;
-	overflow-y: hidden;
-
-	-webkit-touch-callout: none;
-	-webkit-user-select: none;  
-	-moz-user-select: none;   
-	-ms-user-select: none;     
-	user-select: none; 
-}
-
-.wmd-view-topscroll, .wmd-view {
-		overflow-x: scroll;
-		overflow-y: hidden;
-		width: 300px;
-		border: none 0px RED;
-}
-
-.wmd-view-topscroll { height: 20px; }
-.wmd-view { height: 200px; }
-.scroll-div1 { 
-		width: 1000px; 
-		overflow-x: scroll;
-		overflow-y: hidden;
-		height:20px;
-}
-.scroll-div2 { 
-		width: 1000px; 
-		height:20px;
-}
-</style>

@@ -1,7 +1,7 @@
-export const Funcion = {
+export const Cargo = {
   field1:{
     label:'ID',
-    field:'funcion_id',
+    field:'cargo_id',
     searchTextInField:'',
     arrayTextsInSearch:[],
     isVisible:false,
@@ -10,7 +10,7 @@ export const Funcion = {
   },
   field2:{
     label:'Código',
-    field:'funcion_codigo',
+    field:'cargo_codigo',
     defaultValue:'Sin código',
     searchTextInField:'',
     arrayTextsInSearch:[],
@@ -20,7 +20,7 @@ export const Funcion = {
   },
   field3:{
     label:'Nombre',
-    field:'funcion_nombre',
+    field:'cargo_nombre',
     defaultValue:'Sin nombre',
     searchTextInField:'',
     arrayTextsInSearch:[],
@@ -30,7 +30,7 @@ export const Funcion = {
   },
   field4:{
     label:'Descripción',
-    field:'funcion_descripcion',
+    field:'cargo_descripcion',
     defaultValue:'Sin descripción',
     searchTextInField:'',
     arrayTextsInSearch:[],
@@ -39,21 +39,10 @@ export const Funcion = {
     isRestrictiveFilter:false,
   },
   field5:{
-    label:'Tipo Función',
-    field:'tipo_funcion', //la relacion en el modelo del backend en laravel
-    fieldRelation:'tipo_funcion_nombre',
-    defaultValue:'Sin tipo documento',
-    searchTextInField:'',
-    arrayTextsInSearch:[],
-    isVisible:true,
-    isFilterActive: false,    
-    isRestrictiveFilter:false,
-  },
-  field6:{
-    label:'Cargo',
-    field:'cargo', //la relacion en el modelo del backend en laravel
-    fieldRelation:'cargo_nombre',
-    defaultValue:'Sin cargo asociado',
+    label:'Tipo Cargo',
+    field:'tipo_cargo', //la relacion en el modelo del backend en laravel
+    fieldRelation:'tipo_cargo_nombre',
+    defaultValue:'Sin tipo cargo',
     searchTextInField:'',
     arrayTextsInSearch:[],
     isVisible:true,

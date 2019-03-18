@@ -1,0 +1,72 @@
+<template lang="pug">
+	modal(
+		style="z-index:2000 !importantpadding-top: 20px"
+		name="modal-gestionar-establecimientos"
+		:reset="true"
+		:width="'70%'"
+		:min-width="320"
+		:height="'auto'"
+		:min-height="600"
+		:adaptive="true"
+		:resizable="true"
+		:scrollable="true"
+		:draggable="false"
+	)
+
+		div
+			button.button.is-small.is-danger(style="float:right", @click.prevent="$modal.hide('modal-gestionar-establecimientos')") ❌
+		.section
+			h1 Gestión de Establecimientos
+			.content.columns
+				.column.is-6
+					actualizar-establecimiento(
+						:establecimiento="establecimiento",
+						:regiones="regiones",
+						:comunas="comunas"
+					)
+
+				.column.is-6
+					
+					
+
+</template>
+<script>
+//import moment from 'moment'
+
+import ActualizarEstablecimiento from "@/components/pages/Mantenedores/Establecimientos/Forms/ActualizarEstablecimiento.vue"
+
+
+import { InvercolCoreFunctionsMixin } from '@/mixins/InvercolCoreFunctions.js'
+import { environmentConfig } from "@/services/environments/environment-config"
+
+export default {
+	mixins: [InvercolCoreFunctionsMixin],
+	name: "modal-gestionar-establecimientos",
+	components:{
+		ActualizarEstablecimiento,
+	},
+	props: ['establecimiento','regiones','comunas'],
+	data() {
+		return {
+
+		}
+	},
+	created() {},
+	methods: {
+	},
+	filters: {},
+	/*
+	beforeDestroy() {
+	},
+	*/
+}
+</script>
+<style lang="">
+#tab-content p {
+	display: none
+}
+
+#tab-content p.is-active {
+	display: block
+}
+</style>

@@ -14,7 +14,7 @@
 
           tr.is-text-centered(v-for="elem in $parent.$data['groupedMarkedElements']") 
             td
-              .button.is-small.tooltip.is-light(data-tooltip="Opciones",@click.prevent="$parent.modalGestionarCuentas(elem)")
+              .button.is-small.tooltip.is-light(data-tooltip="Opciones",@click.prevent="$parent.modalGestionarElemento(elem)")
                 v-icon(name="cogs")
               .button.is-small.is-danger.tooltip(data-tooltip="Quitar", @click.prevent="$parent.removeMarkedElement(elem)") ❌
 
@@ -88,14 +88,14 @@
 
         tbody
           tr.is-text-centered(v-show="$parent.$data[$parent.$data['localInstanceName']].length==0")
-            td(:colspan="filterBy($parent.$data['modelInstance'], true).length") 
+            td(:colspan="filterBy($parent.$data['modelInstance'], true).length+1") 
               p(style="float:right;") Click Aqui para recargar
                 a.button.is-light(@click.prevent="$parent.restartTable()") &#8635;
               p No hay datos a mostrar
           tr(v-for="elem in filterBy($parent.$data[$parent.$data['localInstanceName']], $parent.$data['textPrincipalFilter'])")
             td 
               .buttons.has-addons
-                .button.is-small.tooltip.is-link(data-tooltip="Opciones", @click.prevent="$parent.modalGestionarCuentas(elem)")
+                .button.is-small.tooltip.is-link(data-tooltip="Opciones", @click.prevent="$parent.modalGestionarElemento(elem)")
                   v-icon(name="cogs")
                 .button.is-small.tooltip(data-tooltip="Marcar",
                   @click.prevent="$parent.groupMarkedElement(elem)", 

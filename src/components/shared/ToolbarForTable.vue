@@ -51,7 +51,7 @@
       .control
         .tooltip(data-tooltip="Reiniciar la tabla")
           a.button.is-small.is-light(
-            @click.prevent="restartTable()",
+            @click.prevent="$parent.restartTable()",
             :disabled="localInstanceObjectsMutated.length==0?true:false" 
           ) &#8635;
             

@@ -6,11 +6,12 @@ import Home from '@/components/pages/Home/Home.vue'
  * Mantenedores
 */
 import FichasTrabajadores from '@/components/pages/Mantenedores/FichasTrabajadores/FichasTrabajadores.vue'
-import FuncionesCargos from '@/components/pages/Mantenedores/FuncionesCargos/FuncionesCargos.vue'
+import Funciones from '@/components/pages/Mantenedores/Funciones/Funciones.vue'
+import Cargos from '@/components/pages/Mantenedores/Cargos/Cargos.vue'
 import Contratos from '@/components/pages/Mantenedores/Contratos/Contratos.vue'
 import Establecimientos from '@/components/pages/Mantenedores/Establecimientos/Establecimientos.vue'
-import Rbd from '@/components/pages/Mantenedores/Rbd/Rbd.vue'
-import LibrosPorCuenta from '@/components/pages/Mantenedores/LibrosPorCuenta/LibrosPorCuenta.vue'
+import Rbds from '@/components/pages/Mantenedores/Rbds/Rbds.vue'
+import Libros from '@/components/pages/Mantenedores/Libros/Libros.vue'
 import Paises from '@/components/pages/Mantenedores/Paises/Paises.vue'
 import Regiones from '@/components/pages/Mantenedores/Regiones/Regiones.vue'
 import Comunas from '@/components/pages/Mantenedores/Comunas/Comunas.vue'
@@ -18,7 +19,7 @@ import Usuarios from '@/components/pages/Mantenedores/Usuarios/Usuarios.vue'
   /**
    * Plan de Cuentas - Sub Menu de Mantenedores
   */
-  import CuentasPorLibro from '@/components/pages/Mantenedores/PlanDeCuentas/CuentasPorLibro/CuentasPorLibro.vue'
+  import Cuentas from '@/components/pages/Mantenedores/PlanDeCuentas/Cuentas/Cuentas.vue'
   import SubvencionPorCuenta from '@/components/pages/Mantenedores/PlanDeCuentas/SubvencionPorCuenta/SubvencionPorCuenta.vue'
 /**
  * Perfil de Usuarios
@@ -57,17 +58,18 @@ export const routes = [
   //{ path: '/home', name: 'home', component: Home },
   /* Rutas Mantenedores */
   { path: '/mantenedores/fichastrabajadores', name: 'FichasTrabajadores', component: FichasTrabajadores },
-  { path: '/mantenedores/funcionescargos', name: 'FuncionesCargos', component: FuncionesCargos },
+  { path: '/mantenedores/funciones', name: 'Funciones', component: Funciones },
+  { path: '/mantenedores/cargos', name: 'Cargos', component: Cargos },
   { path: '/mantenedores/contratos', name: 'Contratos', component: Contratos },
   { path: '/mantenedores/establecimientos', name: 'Establecimientos', component: Establecimientos },
-  { path: '/mantenedores/rbd', name: 'Rbd', component: Rbd },
-  { path: '/mantenedores/librosporcuenta', name: 'LibrosPorCuenta', component: LibrosPorCuenta },
+  { path: '/mantenedores/rbds', name: 'Rbds', component: Rbds },
+  { path: '/mantenedores/libros', name: 'Libros', component: Libros },
   { path: '/mantenedores/paises', name: 'Paises', component: Paises },
   { path: '/mantenedores/regiones', name: 'Regiones', component: Regiones },
   { path: '/mantenedores/comunas', name: 'Comunas', component: Comunas },
   { path: '/mantenedores/usuarios', name: 'Usuarios', component: Usuarios },
     /* Rutas Plan de Cuentas - Sub de Mantenedores */
-    { path: '/mantenedores/plandecuentas/cuentasporlibro', name: 'CuentasPorLibro', component: CuentasPorLibro },
+    { path: '/mantenedores/plandecuentas/cuentas', name: 'Cuentas', component: Cuentas },
     { path: '/mantenedores/plandecuentas/subvencionporcuenta', name: 'SubvencionPorCuenta', component: SubvencionPorCuenta },
   /* Rutas Perfil de Usuarios */
   { path: '/perfildeusuarios/notificaciones', name: 'Notificaciones', component: Notificaciones },

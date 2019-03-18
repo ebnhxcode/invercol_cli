@@ -24,14 +24,14 @@
       .field
         label Cuenta Dependencia
           .select.is-fullwidth
-            select(v-model='nueva_cuenta.cuenta_dependencia')
+            select(v-model='nueva_cuenta.cuenta_dependencia_id')
               option(value='')
               option(v-for="d in cuenta_dependencias", :value='d.cuenta_dependencia_id') {{ d.cuenta_dependencia_nombre }}
 
     .field.is-grouped
       button.button.is-primary.is-small(
           @click.prevent="guardarNuevaCuenta(nueva_cuenta)"
-      ) Guardar Cuenta
+      ) Guardar
 </template>
 <script>
 //import moment from 'moment'
@@ -63,12 +63,12 @@ export default {
     guardarNuevaCuenta: function(nueva_cuenta) {
       //Conforma objeto paramétrico para guardar en el bknd
       var formData = new FormData()
-      formData.append(`cuenta_id`, nueva_cuenta.cuenta_id || "Null")
-      formData.append(`cuenta_codigo`, nueva_cuenta.cuenta_codigo || "Null")
-      formData.append(`cuenta_nombre`, nueva_cuenta.cuenta_nombre || "Null")
-      formData.append(`cuenta_descripcion`,nueva_cuenta.cuenta_descripcion || "Null")
-      formData.append(`cuenta_titular`, nueva_cuenta.cuenta_titular || 1) 
-      formData.append(`cuenta_dependencia_id`,nueva_cuenta.cuenta_dependencia_id || 0)
+      formData.append(`cuenta_id`, nueva_cuenta.cuenta_id)
+      formData.append(`cuenta_codigo`, nueva_cuenta.cuenta_codigo)
+      formData.append(`cuenta_nombre`, nueva_cuenta.cuenta_nombre)
+      formData.append(`cuenta_descripcion`,nueva_cuenta.cuenta_descripcion)
+      formData.append(`cuenta_titular`, nueva_cuenta.cuenta_titular) 
+      formData.append(`cuenta_dependencia_id`,nueva_cuenta.cuenta_dependencia_id)
 
       this.$http.post(`${this.apiUrl}/frontend/cuentas`,formData).then(response => {
         // success callback

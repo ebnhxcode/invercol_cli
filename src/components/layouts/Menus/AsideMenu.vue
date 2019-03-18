@@ -17,9 +17,12 @@
         router-link(to="/mantenedores/fichastrabajadores", tag="a", exact) 
           v-icon(name="book-open")
           |&nbsp;Fichas Trabajadores
-        router-link(to="/mantenedores/funcionescargos", tag="a", exact) 
+        router-link(to="/mantenedores/cargos", tag="a", exact) 
           v-icon(name="book-open")
-          |&nbsp;Funciones y Cargos
+          |&nbsp;Cargos
+        router-link(to="/mantenedores/funciones", tag="a", exact) 
+          v-icon(name="book-open")
+          |&nbsp;Funciones
         router-link(to="/mantenedores/contratos", tag="a", exact) 
           v-icon(name="book-open")
           |&nbsp;Contratos
@@ -27,12 +30,12 @@
         router-link(to="/mantenedores/establecimientos", tag="a", exact) 
           v-icon(name="file-invoice-dollar")
           |&nbsp;Establecimientos
-        router-link(to="/mantenedores/rbd", tag="a", exact) 
+        router-link(to="/mantenedores/rbds", tag="a", exact) 
           v-icon(name="file-invoice-dollar")
-          |&nbsp;RBD
-        router-link(to="/mantenedores/librosporcuenta", tag="a", exact) 
+          |&nbsp;Rbds
+        router-link(to="/mantenedores/libros", tag="a", exact) 
           v-icon(name="book-open")
-          |&nbsp;Libros por Cuenta
+          |&nbsp;Libros
         router-link(to="/mantenedores/usuarios", tag="a", exact) 
           v-icon(name="book-open")
           |&nbsp;Usuarios
@@ -49,9 +52,9 @@
 
         p.menu-label Plan de Cuentas
         ul.menu-list
-          router-link(to="/mantenedores/plandecuentas/cuentasporlibro", tag="a", exact) 
+          router-link(to="/mantenedores/plandecuentas/cuentas", tag="a", exact) 
             v-icon(name="file-invoice-dollar")
-            |&nbsp;Cuentas por Libro
+            |&nbsp;Cuentas
           router-link(to="/mantenedores/plandecuentas/subvencionporcuenta", tag="a", exact) 
             v-icon(name="file-invoice-dollar")
             |&nbsp;Subvención por Cuenta

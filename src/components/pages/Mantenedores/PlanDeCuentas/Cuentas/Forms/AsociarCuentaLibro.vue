@@ -55,6 +55,7 @@ export default {
         if (response.status == 200 || response.status == 201) {
           console.log(response)
           this.$parent.obtenerCuentas()
+          this.$parent.obtenerLibros()
           this.seleccionarFormatoNotificacion('success', 'create', true, {})
           this.limpiarNuevaCuentaLibro()
         }
