@@ -21,7 +21,6 @@
 				.column.is-6
 					actualizar-funcion(
 						:funcion="funcion",
-						:cargos="cargos",
 						:tipo_funciones="tipo_funciones",
 					)
 

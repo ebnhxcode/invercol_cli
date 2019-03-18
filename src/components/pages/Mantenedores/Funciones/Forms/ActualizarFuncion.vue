@@ -17,12 +17,6 @@
 						select(v-model='funcion.tipo_funcion_id')
 							option(value='')
 							option(:value='t.tipo_funcion_id', v-for="t in tipo_funciones") {{ t.tipo_funcion_nombre }}
-			.field
-				label Cargo
-					.select.is-fullwidth
-						select(v-model='funcion.cargo_id')
-							option(value='')
-							option(:value='c.cargo_id', v-for="c in cargos") {{ c.cargo_nombre }}
 
 		.field.is-grouped
 			button.button.is-primary.is-small(
@@ -38,7 +32,7 @@ import { environmentConfig } from "@/services/environments/environment-config"
 export default {
 	mixins: [InvercolCoreFunctionsMixin],
 	name: "actualizar-funcion",
-	props: ["funcion", "cargos", "tipo_funciones"],
+	props: ["funcion", "tipo_funciones"],
 	data() {
 		return {
 			apiUrl:environmentConfig.invercolProd.apiUrl,

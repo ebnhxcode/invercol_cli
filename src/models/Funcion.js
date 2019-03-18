@@ -49,15 +49,4 @@ export const Funcion = {
     isFilterActive: false,    
     isRestrictiveFilter:false,
   },
-  field6:{
-    label:'Cargo',
-    field:'cargo', //la relacion en el modelo del backend en laravel
-    fieldRelation:'cargo_nombre',
-    defaultValue:'Sin cargo asociado',
-    searchTextInField:'',
-    arrayTextsInSearch:[],
-    isVisible:true,
-    isFilterActive: false,    
-    isRestrictiveFilter:false,
-  },
 }

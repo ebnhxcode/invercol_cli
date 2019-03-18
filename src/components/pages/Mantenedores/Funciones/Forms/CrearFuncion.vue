@@ -17,12 +17,6 @@
 						select(v-model='nueva_funcion.tipo_funcion_id')
 							option(value='')
 							option(:value='t.tipo_funcion_id', v-for="t in tipo_funciones") {{ t.tipo_funcion_nombre }}
-			.field
-				label Cargo
-					.select.is-fullwidth
-						select(v-model='nueva_funcion.cargo_id')
-							option(value='')
-							option(:value='c.cargo_id', v-for="c in cargos") {{ c.cargo_nombre }}
 
 		.field.is-grouped
 			button.button.is-primary.is-small(
@@ -38,7 +32,7 @@ import { environmentConfig } from "@/services/environments/environment-config"
 export default {
 	mixins: [InvercolCoreFunctionsMixin],
 	name: "crear-establecimiento",
-	props: ["cargos", "tipo_funciones"],
+	props: ["tipo_funciones"],
 	data() {
 		return {
 			apiUrl:environmentConfig.invercolProd.apiUrl,
@@ -46,7 +40,6 @@ export default {
 				funcion_codigo: null,
 				funcion_nombre: null,
 				funcion_descripcion: null,
-				cargo_id: null,
 				tipo_funcion_id: null
 			},
 		}
@@ -62,7 +55,6 @@ export default {
 			formData.append(`funcion_nombre`, nueva_funcion.funcion_nombre)
 			formData.append(`funcion_descripcion`,nueva_funcion.funcion_descripcion)
       formData.append(`tipo_funcion_id`,nueva_funcion.tipo_funcion_id)
-      formData.append(`cargo_id`, nueva_funcion.cargo_id)
 
 			this.$http.post(`${this.apiUrl}/frontend/funciones`,formData).then(response => {
 				// success callback
@@ -85,7 +77,6 @@ export default {
 				funcion_codigo: null,
 				funcion_nombre: null,
 				funcion_descripcion: null,
-				cargo_id: null,
 				tipo_funcion_id: null
 			}
 		}

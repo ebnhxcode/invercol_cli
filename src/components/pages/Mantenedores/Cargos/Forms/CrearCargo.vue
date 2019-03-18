@@ -1,32 +1,27 @@
 <template lang="pug">
 	div
-		h2 Nueva Función
+		h2 Nuevo Cargo
 		.field
 			.field
 				label Código
-				input.input(type='text', v-model='nueva_funcion.funcion_codigo')
+				input.input(type='text', v-model='nuevo_cargo.cargo_codigo')
 			.field
 				label Nombre
-				input.input(type='text', v-model='nueva_funcion.funcion_nombre')
+				input.input(type='text', v-model='nuevo_cargo.cargo_nombre')
 			.field
 				label Descripción
-				input.textarea(v-model='nueva_funcion.funcion_descripcion', rows="1")
+				input.textarea(v-model='nuevo_cargo.cargo_descripcion', rows="1")
 			.field
-				label Tipo Función
+				label Tipo Cargo
 					.select.is-fullwidth
-						select(v-model='nueva_funcion.tipo_funcion_id')
+						select(v-model='nuevo_cargo.tipo_cargo_id')
 							option(value='')
-							option(:value='t.tipo_funcion_id', v-for="t in tipo_funciones") {{ t.tipo_funcion_nombre }}
-			.field
-				label Cargo
-					.select.is-fullwidth
-						select(v-model='nueva_funcion.cargo_id')
-							option(value='')
-							option(:value='c.cargo_id', v-for="c in cargos") {{ c.cargo_nombre }}
+							option(:value='t.tipo_cargo_id', v-for="t in tipo_cargos") {{ t.tipo_cargo_nombre }}
+
 
 		.field.is-grouped
 			button.button.is-primary.is-small(
-					@click.prevent="guardarNuevaFuncion(nueva_funcion)"
+					@click.prevent="guardarNuevoCargo(nuevo_cargo)"
 			) Guardar
 </template>
 <script>
@@ -37,17 +32,16 @@ import { environmentConfig } from "@/services/environments/environment-config"
 
 export default {
 	mixins: [InvercolCoreFunctionsMixin],
-	name: "crear-establecimiento",
-	props: ["cargos", "tipo_funciones"],
+	name: "crear-cargo",
+	props: ["tipo_cargos"],
 	data() {
 		return {
 			apiUrl:environmentConfig.invercolProd.apiUrl,
-			nueva_funcion: {
-				funcion_codigo: null,
-				funcion_nombre: null,
-				funcion_descripcion: null,
-				cargo_id: null,
-				tipo_funcion_id: null
+			nuevo_cargo: {
+				cargo_codigo: null,
+				cargo_nombre: null,
+				cargo_descripcion: null,
+				tipo_cargo_id: null
 			},
 		}
 	},
@@ -55,22 +49,21 @@ export default {
 	methods: {
 		
 
-		guardarNuevaFuncion: function(nueva_funcion) {
+		guardarNuevoCargo: function(nuevo_cargo) {
 			//Conforma objeto paramétrico para guardar en el bknd
       var formData = new FormData()
-      formData.append(`funcion_codigo`, nueva_funcion.funcion_codigo)
-			formData.append(`funcion_nombre`, nueva_funcion.funcion_nombre)
-			formData.append(`funcion_descripcion`,nueva_funcion.funcion_descripcion)
-      formData.append(`tipo_funcion_id`,nueva_funcion.tipo_funcion_id)
-      formData.append(`cargo_id`, nueva_funcion.cargo_id)
+      formData.append(`cargo_codigo`, nuevo_cargo.cargo_codigo)
+			formData.append(`cargo_nombre`, nuevo_cargo.cargo_nombre)
+			formData.append(`cargo_descripcion`,nuevo_cargo.cargo_descripcion)
+      formData.append(`tipo_cargo_id`,nuevo_cargo.tipo_cargo_id)
 
-			this.$http.post(`${this.apiUrl}/frontend/funciones`,formData).then(response => {
+			this.$http.post(`${this.apiUrl}/frontend/cargos`,formData).then(response => {
 				// success callback
 				if (response.status == 200 || response.status == 201) {
 					console.log(response)
-					this.$parent.obtenerFunciones() // SOON DEPRECATE
+					this.$parent.obtenerCargos() // SOON DEPRECATE
 					this.seleccionarFormatoNotificacion('success', 'create', true, {})
-					this.limpiarNuevaFuncion()
+					this.limpiarNuevoCargo()
 				}
 				
 			},
@@ -80,13 +73,12 @@ export default {
 			})
 		},
 
-		limpiarNuevaFuncion: function() {
-			this.nueva_funcion = {
-				funcion_codigo: null,
-				funcion_nombre: null,
-				funcion_descripcion: null,
-				cargo_id: null,
-				tipo_funcion_id: null
+		limpiarNuevoCargo: function() {
+			this.nuevo_cargo = {
+				cargo_codigo: null,
+				cargo_nombre: null,
+				cargo_descripcion: null,
+				tipo_cargo_id: null
 			}
 		}
 	},

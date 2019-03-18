@@ -1,7 +1,7 @@
 <template lang="pug">
 	modal(
 		style="z-index:2000 !importantpadding-top: 20px"
-		name="modal-gestionar-funciones"
+		name="modal-gestionar-cargos"
 		:reset="true"
 		:width="'70%'"
 		:min-width="320"
@@ -14,15 +14,15 @@
 	)
 
 		div
-			button.button.is-small.is-danger(style="float:right", @click.prevent="$modal.hide('modal-gestionar-funciones')") ❌
+			button.button.is-small.is-danger(style="float:right", @click.prevent="$modal.hide('modal-gestionar-cargos')") ❌
 		.section
-			h1 Gestión de Funciones
+			h1 Gestión de Cargos
 			.content.columns
 				.column.is-6
-					actualizar-funcion(
-						:funcion="funcion",
+					actualizar-cargo(
+						:cargo="cargo",
 						:cargos="cargos",
-						:tipo_funciones="tipo_funciones",
+						:tipo_cargos="tipo_cargos",
 					)
 
 				.column.is-6
@@ -32,18 +32,18 @@
 <script>
 //import moment from 'moment'
 
-import ActualizarFuncion from "@/components/pages/Mantenedores/Funciones/Forms/ActualizarFuncion.vue"
+import ActualizarCargo from "@/components/pages/Mantenedores/Cargos/Forms/ActualizarCargo.vue"
 
 import { InvercolCoreFunctionsMixin } from '@/mixins/InvercolCoreFunctions.js'
 import { environmentConfig } from "@/services/environments/environment-config"
 
 export default {
 	mixins: [InvercolCoreFunctionsMixin],
-	name: "modal-gestionar-funciones",
+	name: "modal-gestionar-cargos",
 	components:{
-		ActualizarFuncion,
+		ActualizarCargo,
 	},
-	props: ["funcion", "cargos", "tipo_funciones"],
+	props: ["cargo", "cargos", "tipo_cargos", "funciones"],
 	data() {
 		return {
 		}

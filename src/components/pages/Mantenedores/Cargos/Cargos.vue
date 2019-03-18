@@ -40,8 +40,9 @@
 							div(v-show="tabActive==='tab1'")
 								modal-gestionar-cargos(
 									:cargo="cargo",
-									:funciones="api_funciones",
+									:cargos="api_cargos",
 									:tipo_cargos="api_tipo_cargos",
+									:funciones="api_funciones",
 								)
 
 								// Cabecera de los campos de la tabla
@@ -79,13 +80,13 @@
 import AsideMenu from '@/components/layouts/Menus/AsideMenu.vue'
 import Loader from '@/components/shared/Loader.vue'
 import Spinner from '@/components/shared/Spinner.vue';
-import ModalGestionarFunciones from "@/components/pages/Mantenedores/Funciones/Modals/ModalGestionarFunciones.vue"
-import CrearFuncion from "@/components/pages/Mantenedores/Funciones/Forms/CrearFuncion.vue"
+import ModalGestionarCargos from "@/components/pages/Mantenedores/Cargos/Modals/ModalGestionarCargos.vue"
+import CrearCargo from "@/components/pages/Mantenedores/Cargos/Forms/CrearCargo.vue"
 import TableColumns from '@/components/shared/TableColumns.vue'
 import TablePro from '@/components/shared/TablePro.vue'
 import ToolbarForTable from '@/components/shared/ToolbarForTable.vue'
 
-import { Funcion } from '@/models/Funcion'
+import { Cargo } from '@/models/Cargo'
 
 import { InvercolCoreFunctionsMixin } from '@/mixins/InvercolCoreFunctions.js'
 import { environmentConfig } from '@/services/environments/environment-config'
@@ -96,8 +97,8 @@ export default {
 		AsideMenu,
 		Spinner,
 		Loader,
-		ModalGestionarFunciones,
-		CrearFuncion,
+		ModalGestionarCargos,
+		CrearCargo,
 		TableColumns,
 		ToolbarForTable,
 		TablePro,
@@ -142,7 +143,8 @@ export default {
 			cargos:[], // lista de libros
 			cargosStorage:[], // lista de libros
 			api_cargos:[], // lista de libros
-			api_tipo_funciones:[], // lista de libros
+			api_funciones:[], // lista de libros
+			api_tipo_cargos:[], // lista de libros
 
 
 
@@ -152,20 +154,20 @@ export default {
 	watch: {},
 	methods: {
 		instanceTableWithLocalObjects(){
-			this.obtenerFunciones()
+			this.obtenerCargos()
 			this.apiObtenerCargos()
-			this.apiObtenerTipoFunciones()
+			this.apiObtenerTipoCargos()
 		},
 
-		obtenerFunciones: function () {
+		obtenerCargos: function () {
 			this.isLoading = true
-			this.$http.get(`${environmentConfig.invercolProd.apiUrl}/frontend/funciones`)
+			this.$http.get(`${environmentConfig.invercolProd.apiUrl}/frontend/cargos`)
 				.then(response => { // success callback
 					if (response.status = 200) {
-						this.funciones = {}
-						this.funcionesStorage = {}
-						this.funciones = response.body.funciones.data
-						this.funcionesStorage = response.body.funciones.data
+						this.cargos = {}
+						this.cargosStorage = {}
+						this.cargos = response.body.cargos.data
+						this.cargosStorage = response.body.cargos.data
 					}
 					this.isLoading = false
 			}, response => { /*// error callback //this.checkResponseHttpToAlert(response.status)*/ });
@@ -183,21 +185,21 @@ export default {
 			}, response => { /*// error callback //this.checkResponseHttpToAlert(response.status)*/ });
 		},
 
-		apiObtenerTipoFunciones: function () {
+		apiObtenerTipoCargos: function () {
 			this.isLoading = true
-			this.$http.get(`${environmentConfig.invercolProd.apiUrl}/api/tipo_funciones`)
+			this.$http.get(`${environmentConfig.invercolProd.apiUrl}/api/tipo_cargos`)
 				.then(response => { // success callback
 					if (response.status = 200) {
-						this.api_tipo_funciones = {}
-						this.api_tipo_funciones = response.body
+						this.api_tipo_cargos = {}
+						this.api_tipo_cargos = response.body
 					}
 					this.isLoading = false
 			}, response => { /*// error callback //this.checkResponseHttpToAlert(response.status)*/ });
 		},
 
-		modalGestionarElemento: function (funcion) {
-			this.funcion = funcion
-			this.$modal.show("modal-gestionar-funciones")
+		modalGestionarElemento: function (cargo) {
+			this.cargo = cargo
+			this.$modal.show("modal-gestionar-cargos")
 		}
 	}
 

@@ -1,32 +1,27 @@
 <template lang="pug">
-	div(v-if="funcion")
-		h2 Actualizar Función
+	div(v-if="cargo")
+		h2 Actualizar Cargo
+		div
 		.field
 			.field
 				label Código
-				input.input(type='text', v-model='funcion.funcion_codigo')
+				input.input(type='text', v-model='cargo.cargo_codigo')
 			.field
 				label Nombre
-				input.input(type='text', v-model='funcion.funcion_nombre')
+				input.input(type='text', v-model='cargo.cargo_nombre')
 			.field
 				label Descripción
-				input.textarea(v-model='funcion.funcion_descripcion', rows="1")
+				input.textarea(v-model='cargo.cargo_descripcion', rows="1")
 			.field
-				label Tipo Función
+				label Tipo Cargo
 					.select.is-fullwidth
-						select(v-model='funcion.tipo_funcion_id')
+						select(v-model='cargo.tipo_cargo_id')
 							option(value='')
-							option(:value='t.tipo_funcion_id', v-for="t in tipo_funciones") {{ t.tipo_funcion_nombre }}
-			.field
-				label Cargo
-					.select.is-fullwidth
-						select(v-model='funcion.cargo_id')
-							option(value='')
-							option(:value='c.cargo_id', v-for="c in cargos") {{ c.cargo_nombre }}
+							option(:value='t.tipo_cargo_id', v-for="t in tipo_cargos") {{ t.tipo_cargo_nombre }}
 
 		.field.is-grouped
 			button.button.is-primary.is-small(
-					@click.prevent="guardarFuncion(funcion)"
+					@click.prevent="guardarCargo(cargo)"
 			) Guardar
 </template>
 <script>
@@ -37,8 +32,8 @@ import { environmentConfig } from "@/services/environments/environment-config"
 
 export default {
 	mixins: [InvercolCoreFunctionsMixin],
-	name: "actualizar-funcion",
-	props: ["funcion", "cargos", "tipo_funciones"],
+	name: "actualizar-cargo",
+	props: ["cargo", "tipo_cargos"],
 	data() {
 		return {
 			apiUrl:environmentConfig.invercolProd.apiUrl,
@@ -48,8 +43,8 @@ export default {
 	created() {},
 	methods: {
 		
-		guardarFuncion: function(funcion) {
- 			this.$http.put(`${this.apiUrl}/frontend/funciones/${funcion.funcion_id}`,funcion).then(response => {
+		guardarCargo: function(cargo) {
+ 			this.$http.put(`${this.apiUrl}/frontend/cargos/${cargo.cargo_id}`,cargo).then(response => {
 				// success callback
 				if (response.status == 200 || response.status == 201) {
 					console.log(response)

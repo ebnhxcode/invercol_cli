@@ -67,7 +67,6 @@
 								.columns
 									.column.is-6
 										crear-funcion(
-											:cargos="api_cargos",
 											:tipo_funciones="api_tipo_funciones",
 										)
 							div(v-show="tabActive==='tab3'")
