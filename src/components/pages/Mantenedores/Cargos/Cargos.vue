@@ -73,6 +73,10 @@
 							div(v-show="tabActive==='tab3'")
 								.columns
 									.column.is-6
+										asociar-cargo-funcion(
+											:cargos="api_cargos",
+											:funciones="api_funciones"
+										)
 </template>
 
 <script>
@@ -82,6 +86,7 @@ import Loader from '@/components/shared/Loader.vue'
 import Spinner from '@/components/shared/Spinner.vue';
 import ModalGestionarCargos from "@/components/pages/Mantenedores/Cargos/Modals/ModalGestionarCargos.vue"
 import CrearCargo from "@/components/pages/Mantenedores/Cargos/Forms/CrearCargo.vue"
+import AsociarCargoFuncion from "@/components/pages/Mantenedores/Cargos/Forms/AsociarCargoFuncion.vue"
 import TableColumns from '@/components/shared/TableColumns.vue'
 import TablePro from '@/components/shared/TablePro.vue'
 import ToolbarForTable from '@/components/shared/ToolbarForTable.vue'
@@ -99,6 +104,7 @@ export default {
 		Loader,
 		ModalGestionarCargos,
 		CrearCargo,
+		AsociarCargoFuncion,
 		TableColumns,
 		ToolbarForTable,
 		TablePro,
@@ -156,6 +162,7 @@ export default {
 		instanceTableWithLocalObjects(){
 			this.obtenerCargos()
 			this.apiObtenerCargos()
+			this.apiObtenerFunciones()
 			this.apiObtenerTipoCargos()
 		},
 
@@ -180,6 +187,19 @@ export default {
 					if (response.status = 200) {
 						this.api_cargos = {}
 						this.api_cargos = response.body
+					}
+					this.isLoading = false
+			}, response => { /*// error callback //this.checkResponseHttpToAlert(response.status)*/ });
+		},
+
+
+		apiObtenerFunciones: function () {
+			this.isLoading = true
+			this.$http.get(`${environmentConfig.invercolProd.apiUrl}/api/funciones`)
+				.then(response => { // success callback
+					if (response.status = 200) {
+						this.api_funciones = {}
+						this.api_funciones = response.body
 					}
 					this.isLoading = false
 			}, response => { /*// error callback //this.checkResponseHttpToAlert(response.status)*/ });

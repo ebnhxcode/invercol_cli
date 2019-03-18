@@ -72,6 +72,10 @@
 							div(v-show="tabActive==='tab3'")
 								.columns
 									.column.is-6
+										asociar-cargo-funcion(
+											:cargos="api_cargos",
+											:funciones="api_funciones"
+										)
 </template>
 
 <script>
@@ -81,6 +85,7 @@ import Loader from '@/components/shared/Loader.vue'
 import Spinner from '@/components/shared/Spinner.vue';
 import ModalGestionarFunciones from "@/components/pages/Mantenedores/Funciones/Modals/ModalGestionarFunciones.vue"
 import CrearFuncion from "@/components/pages/Mantenedores/Funciones/Forms/CrearFuncion.vue"
+import AsociarCargoFuncion from "@/components/pages/Mantenedores/Cargos/Forms/AsociarCargoFuncion.vue"
 import TableColumns from '@/components/shared/TableColumns.vue'
 import TablePro from '@/components/shared/TablePro.vue'
 import ToolbarForTable from '@/components/shared/ToolbarForTable.vue'
@@ -98,6 +103,7 @@ export default {
 		Loader,
 		ModalGestionarFunciones,
 		CrearFuncion,
+		AsociarCargoFuncion,
 		TableColumns,
 		ToolbarForTable,
 		TablePro,
@@ -142,6 +148,7 @@ export default {
 			funciones:[], // lista de libros
 			funcionesStorage:[], // lista de libros
 			api_cargos:[], // lista de libros
+			api_funciones:[], // lista de libros
 			api_tipo_funciones:[], // lista de libros
 
 
@@ -154,6 +161,7 @@ export default {
 		instanceTableWithLocalObjects(){
 			this.obtenerFunciones()
 			this.apiObtenerCargos()
+			this.apiObtenerFunciones()
 			this.apiObtenerTipoFunciones()
 		},
 
@@ -178,6 +186,18 @@ export default {
 					if (response.status = 200) {
 						this.api_cargos = {}
 						this.api_cargos = response.body
+					}
+					this.isLoading = false
+			}, response => { /*// error callback //this.checkResponseHttpToAlert(response.status)*/ });
+		},
+
+		apiObtenerFunciones: function () {
+			this.isLoading = true
+			this.$http.get(`${environmentConfig.invercolProd.apiUrl}/api/funciones`)
+				.then(response => { // success callback
+					if (response.status = 200) {
+						this.api_funciones = {}
+						this.api_funciones = response.body
 					}
 					this.isLoading = false
 			}, response => { /*// error callback //this.checkResponseHttpToAlert(response.status)*/ });

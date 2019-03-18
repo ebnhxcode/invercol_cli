@@ -26,6 +26,9 @@
 					)
 
 				.column.is-6
+					mantener-cargo-funcion(
+						:cargo="cargo"
+					)
 
 
 </template>
@@ -33,6 +36,7 @@
 //import moment from 'moment'
 
 import ActualizarCargo from "@/components/pages/Mantenedores/Cargos/Forms/ActualizarCargo.vue"
+import MantenerCargoFuncion from "@/components/pages/Mantenedores/Cargos/Forms/MantenerCargoFuncion.vue"
 
 import { InvercolCoreFunctionsMixin } from '@/mixins/InvercolCoreFunctions.js'
 import { environmentConfig } from "@/services/environments/environment-config"
@@ -41,7 +45,8 @@ export default {
 	mixins: [InvercolCoreFunctionsMixin],
 	name: "modal-gestionar-cargos",
 	components:{
-		ActualizarCargo,
+    ActualizarCargo,
+    MantenerCargoFuncion,
 	},
 	props: ["cargo", "cargos", "tipo_cargos", "funciones"],
 	data() {
